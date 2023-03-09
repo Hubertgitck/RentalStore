@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalStoreWeb", "RentalStoreWeb.csproj", "{FF672214-2365-455E-AF51-586D192F79AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalCompanyWeb", "RentalCompanyWeb.csproj", "{FF672214-2365-455E-AF51-586D192F79AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalStore.Infrastructure", "..\RentalStore.Infrastructure\RentalStore.Infrastructure.csproj", "{9A039F54-D001-43AB-8172-E4C9E2515F60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalCompany.Infrastructure", "..\RentalStore.Infrastructure\RentalCompany.Infrastructure.csproj", "{9A039F54-D001-43AB-8172-E4C9E2515F60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

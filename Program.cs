@@ -4,7 +4,6 @@ using RentalCompany.Infrastructure.DbInitializer;
 using RentalCompany.Infrastructure.Repositories;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 

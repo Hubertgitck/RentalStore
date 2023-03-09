@@ -249,7 +249,7 @@ namespace RentalCompany.Infrastructure.Migrations
 
                     b.HasIndex("RentalStoreId");
 
-                    b.ToTable("AvailableCars");
+                    b.ToTable("AvailableCars", (string)null);
                 });
 
             modelBuilder.Entity("RentalCompany.Infrastructure.Models.Car", b =>
@@ -273,7 +273,7 @@ namespace RentalCompany.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("RentalCompany.Infrastructure.Models.ContactData", b =>
@@ -310,7 +310,7 @@ namespace RentalCompany.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactDatas");
+                    b.ToTable("ContactDatas", (string)null);
                 });
 
             modelBuilder.Entity("RentalCompany.Infrastructure.Models.RentalStore", b =>
@@ -332,7 +332,7 @@ namespace RentalCompany.Infrastructure.Migrations
 
                     b.HasIndex("ContactDataId");
 
-                    b.ToTable("RentalStores");
+                    b.ToTable("RentalStores", (string)null);
                 });
 
             modelBuilder.Entity("RentalCompany.Infrastructure.Models.RentHeader", b =>
@@ -379,7 +379,7 @@ namespace RentalCompany.Infrastructure.Migrations
 
                     b.HasIndex("ReturnRentalStoreId");
 
-                    b.ToTable("RentHeaders");
+                    b.ToTable("RentHeaders", (string)null);
                 });
 
             modelBuilder.Entity("RentalCompany.Infrastructure.Models.ApplicationUser", b =>

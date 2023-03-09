@@ -26,5 +26,9 @@
 		<Using Include="RentalCompany.Infrastructure.Models" />
 		<Using Include="System.ComponentModel.DataAnnotations" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
 
 </Project>

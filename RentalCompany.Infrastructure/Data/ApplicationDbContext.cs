@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System.Reflection.Emit;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace RentalCompany.Infrastructure.Data;
@@ -15,5 +16,21 @@ public class ApplicationDbContext :IdentityDbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
 
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        builder.Entity<RentHeader>()
+            .HasOne(r => r.PickupRentalStore)
+            .WithMany(s => s.PickupPlaces)
+            .HasForeignKey(r => r.PickupRentalStoreId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<RentHeader>()
+            .HasOne(r => r.ReturnRentalStore)
+            .WithMany(s => s.ReturnPlaces)
+            .HasForeignKey(r => r.ReturnRentalStoreId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

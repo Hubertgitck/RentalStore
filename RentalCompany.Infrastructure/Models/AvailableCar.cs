@@ -8,6 +8,6 @@ public class AvailableCar
     public int Id { get; set; }
     [ForeignKey("CarId")]
     public int CarId { get; set; }
-    public Car Car { get; set; }
+    public virtual Car Car { get; set; }
     public int CarsCount { get; set; }
 }

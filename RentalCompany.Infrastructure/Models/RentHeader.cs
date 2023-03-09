@@ -10,17 +10,11 @@ public class RentHeader
     public string ApplicationUserId { get; set; }
     [Required]
     [ValidateNever]
-    public ApplicationUser ApplicationUser { get; set; }
+    public virtual ApplicationUser ApplicationUser { get; set; }
     [Required]
     [ForeignKey("CarId")]
     public int CarId { get; set; }
-    public Car Car { get; set; }
-    [Required]
-    [ForeignKey("RentalStoreId")]
-    public RentalStore PickupRentalStore { get; set; }
-    [Required]
-    [ForeignKey("RentalStoreId")]
-    public RentalStore ReturnRentalStore { get; set; }
+    public virtual Car Car { get; set; }
 
     [Required]
     public double TotalCost { get; set; }
@@ -30,5 +24,17 @@ public class RentHeader
     public DateTime StartDate { get; set; }
     [Required]
     public DateTime EndDate { get; set; }
+
+    public int PickupRentalStoreId { get; set; }
+    public int ReturnRentalStoreId { get; set; }
+
+    [ForeignKey("PickupRentalStoreId")]
+    [InverseProperty("PickupPlaces")]
+    public virtual RentalStore PickupRentalStore { get; set; }
+    
+    [ForeignKey("ReturnRentalStoreId")]
+    [InverseProperty("ReturnPlaces")]
+
+    public virtual RentalStore ReturnRentalStore { get; set; }
 
 }

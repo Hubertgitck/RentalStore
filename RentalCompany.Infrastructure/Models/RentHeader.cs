@@ -17,11 +17,9 @@ public class RentHeader
     public Car Car { get; set; }
     [Required]
     [ForeignKey("RentalStoreId")]
-    public int PickupPlaceId {get; set; }
     public RentalStore PickupRentalStore { get; set; }
     [Required]
     [ForeignKey("RentalStoreId")]
-    public int ReturnPlaceId { get; set; }
     public RentalStore ReturnRentalStore { get; set; }
 
     [Required]

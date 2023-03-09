@@ -1,7 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using RentalCompany.Infrastructure.Data;
+using RentalCompany.Infrastructure.Repositories.Interfaces;
+using RentalCompany.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

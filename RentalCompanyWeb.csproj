@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="RentalCompany.Infrastructure\**" />
+    <Content Remove="RentalCompany.Infrastructure\**" />
+    <EmbeddedResource Remove="RentalCompany.Infrastructure\**" />
+    <None Remove="RentalCompany.Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RentalCompany.Infrastructure\RentalCompany.Infrastructure.csproj" />
   </ItemGroup>
 

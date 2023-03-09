@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using RentalCompany.Infrastructure.Data;
-using RentalCompany.Infrastructure.Repositories.Interfaces;
+using RentalCompany.Infrastructure.DbInitializer;
 using RentalCompany.Infrastructure.Repositories;
+using RentalCompany.Infrastructure.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +29,20 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+SeedDatabase();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
 
 app.Run();
+
+
+async void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        await dbInitializer.Initialize();
+    }
+}

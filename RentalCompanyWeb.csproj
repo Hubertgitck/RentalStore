@@ -8,13 +8,18 @@
 
   <ItemGroup>
     <Compile Remove="RentalCompany.Infrastructure\**" />
+    <Compile Remove="RentalCompany.Utility\**" />
     <Content Remove="RentalCompany.Infrastructure\**" />
+    <Content Remove="RentalCompany.Utility\**" />
     <EmbeddedResource Remove="RentalCompany.Infrastructure\**" />
+    <EmbeddedResource Remove="RentalCompany.Utility\**" />
     <None Remove="RentalCompany.Infrastructure\**" />
+    <None Remove="RentalCompany.Utility\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RentalCompany.Infrastructure\RentalCompany.Infrastructure.csproj" />
+    <ProjectReference Include="RentalCompany.Infrastructure\RentalCompany.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

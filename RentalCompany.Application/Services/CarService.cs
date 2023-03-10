@@ -1,26 +1,58 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
+using RentalCompany.Infrastructure.Models;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
 
 namespace RentalCompany.Application.Services;
 
 public class CarService : ICarService
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
+	private readonly IUnitOfWork _unitOfWork;
+	private readonly IMapper _mapper;
+	private readonly IWebHostEnvironment _hostEnvironment;
 
-    public CarService(IUnitOfWork unitOfWork, IMapper mapper)
-    {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-    }
 
-    public Task<IEnumerable<CarDto>> GetAllCars()
-    {
-        var allCarsCollection = _unitOfWork.Car.GetAll();
-        var allCarsCollectionDto = _mapper.Map<IEnumerable<CarDto>>(allCarsCollection);
+	public CarService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment hostEnvironment)
+	{
+		_unitOfWork = unitOfWork;
+		_mapper = mapper;
+		_hostEnvironment = hostEnvironment;
+	}
 
-        return Task.FromResult(allCarsCollectionDto);
-    }
+	public Task<IEnumerable<CarDto>> GetAllCars()
+	{
+		var allCarsCollection = _unitOfWork.Car.GetAll();
+		var allCarsCollectionDto = _mapper.Map<IEnumerable<CarDto>>(allCarsCollection);
+
+		return Task.FromResult(allCarsCollectionDto);
+	}
+
+	public Task AddCarToDatabase(CarDto carDto, IFormFile? file)
+	{
+		string wwwRootPath = _hostEnvironment.WebRootPath;
+
+		if (file != null)
+		{
+			string fileName = Guid.NewGuid().ToString();
+			var uploads = Path.Combine(wwwRootPath, @"img\cars");
+			var extension = Path.GetExtension(file.FileName);
+
+			using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+			{
+				file.CopyTo(fileStreams);
+			}
+			carDto.ImageUrl = @"\img\cars\" + fileName + extension;
+		}
+
+		var carToDb = _mapper.Map<Car>(carDto);
+
+		_unitOfWork.Car.Add(carToDb);
+		_unitOfWork.Save();
+
+		return Task.CompletedTask;
+	}
 }
+

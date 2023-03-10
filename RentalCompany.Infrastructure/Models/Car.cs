@@ -8,5 +8,7 @@ public class Car
     [Required]
     public string Description { get; set; }
     [Required]
-    public double DayRentalPrice { get; set; } 
+    public double DayRentalPrice { get; set; }
+    [Required]
+    public string ImageUrl { get; set; }
 }

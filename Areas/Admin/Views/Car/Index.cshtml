@@ -11,7 +11,7 @@
             <h2 class="text-primary"> Car List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
+            <a asp-controller="Car" asp-action="Create" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> &nbsp; Add new car
             </a>
         </div>
@@ -22,8 +22,14 @@
         <table class="table table-bordered table-striped ">
             <thead>
                 <tr>
-                    <th>
-                        Car Name
+                    <th class="col-md-2">
+                        Model Name
+                    </th>
+                    <th class="col-md-6">
+                        Description
+                    </th>
+                    <th class="col-md-2">
+                        One day rent price
                     </th>
                     <th>
                     </th>
@@ -35,8 +41,14 @@
                 {
 
                     <tr>
-                        <td class="col-md-8">
+                        <td class="col-md-1">
                             @obj.Name
+                        </td>
+                        <td class="col-md-4">
+                            @obj.Description
+                        </td>
+                        <td class="col-md-1">
+                            @obj.DayRentalPrice
                         </td>
                         <td>
                             <div class="btn-group" role="group">

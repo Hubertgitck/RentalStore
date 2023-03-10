@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using RentalCompany.Application.Dto;
 using RentalCompany.Infrastructure.Models;
 
-namespace RentalCompany.Application.Dto;
+namespace RentalCompany.Dto;
 
 public class MappingProfile : Profile
 {
@@ -9,5 +10,6 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Car, CarDto>();
+        CreateMap<CarDto, Car>();
     }
 }

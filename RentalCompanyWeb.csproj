@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.14">
@@ -43,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RentalStore.Application\RentalCompany.Application.csproj" />
+    <ProjectReference Include="RentalCompany.Application\RentalCompany.Application.csproj" />
     <ProjectReference Include="RentalCompany.Infrastructure\RentalCompany.Infrastructure.csproj" />
     <ProjectReference Include="RentalCompany.Utility\RentalCompany.Utility.csproj" />
   </ItemGroup>

@@ -6,6 +6,9 @@ using RentalCompany.Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using RentalCompany.Application.EmailSender;
+using RentalCompany.Application.Interfaces;
+using RentalCompany.Application.Services;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +27,10 @@ builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+builder.Services.AddScoped<ICarService, CarService>();
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 
 var app = builder.Build();

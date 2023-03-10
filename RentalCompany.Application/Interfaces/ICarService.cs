@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RentalCompany.Application.Dto;
 
-namespace RentalCompany.Application.Interfaces
+namespace RentalCompany.Application.Interfaces;
+
+public interface ICarService
 {
-    internal interface ICarService
-    {
-    }
+    Task<IEnumerable<CarDto>> GetAllCars();
 }

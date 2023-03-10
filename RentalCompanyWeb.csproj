@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="RentalCompany.Application\**" />
     <Compile Remove="RentalCompany.Infrastructure\**" />
     <Compile Remove="RentalCompany.Utility\**" />
+    <Content Remove="RentalCompany.Application\**" />
     <Content Remove="RentalCompany.Infrastructure\**" />
     <Content Remove="RentalCompany.Utility\**" />
+    <EmbeddedResource Remove="RentalCompany.Application\**" />
     <EmbeddedResource Remove="RentalCompany.Infrastructure\**" />
     <EmbeddedResource Remove="RentalCompany.Utility\**" />
+    <None Remove="RentalCompany.Application\**" />
     <None Remove="RentalCompany.Infrastructure\**" />
     <None Remove="RentalCompany.Utility\**" />
   </ItemGroup>
@@ -35,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RentalStore.Application\RentalCompany.Application.csproj" />
     <ProjectReference Include="RentalCompany.Infrastructure\RentalCompany.Infrastructure.csproj" />
     <ProjectReference Include="RentalCompany.Utility\RentalCompany.Utility.csproj" />
   </ItemGroup>

@@ -10,15 +10,19 @@
     <Compile Remove="RentalCompany.Application\**" />
     <Compile Remove="RentalCompany.Infrastructure\**" />
     <Compile Remove="RentalCompany.Utility\**" />
+    <Compile Remove="RentalStore.Application\**" />
     <Content Remove="RentalCompany.Application\**" />
     <Content Remove="RentalCompany.Infrastructure\**" />
     <Content Remove="RentalCompany.Utility\**" />
+    <Content Remove="RentalStore.Application\**" />
     <EmbeddedResource Remove="RentalCompany.Application\**" />
     <EmbeddedResource Remove="RentalCompany.Infrastructure\**" />
     <EmbeddedResource Remove="RentalCompany.Utility\**" />
+    <EmbeddedResource Remove="RentalStore.Application\**" />
     <None Remove="RentalCompany.Application\**" />
     <None Remove="RentalCompany.Infrastructure\**" />
     <None Remove="RentalCompany.Utility\**" />
+    <None Remove="RentalStore.Application\**" />
   </ItemGroup>
 
   <ItemGroup>

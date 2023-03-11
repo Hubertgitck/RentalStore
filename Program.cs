@@ -9,6 +9,7 @@ using System.Reflection;
 using RentalCompany.Application.EmailSender;
 using RentalCompany.Application.Interfaces;
 using RentalCompany.Application.Services;
+using RentalCompany.Application.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,8 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 builder.Services.AddScoped<ICarService, CarService>();
 
+builder.Services.AddScoped<ExceptionHandlingMiddleware>();
+
 
 var app = builder.Build();
 
@@ -56,6 +59,10 @@ app.UseRouting();
 SeedDatabase();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseSession();
 
 app.MapRazorPages();
 app.MapControllerRoute(

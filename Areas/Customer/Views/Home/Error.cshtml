@@ -1,7 +1,20 @@
-﻿@{
+﻿@using RentalCompany.Application.Dto;
+@model ErrorViewDto
+@{
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="row mt-4">
+    <div class="col-8 mx-auto text-center">
+        <h1 class="text-danger">Error</h1>
+        <h2 class="text-danger">An error occurred while processing your request.</h2>
 
+        <p class="col-12 mt-4">
+            <strong>ErrorCode :</strong> <code>@Model.StatusCode</code>
+        </p>
+
+        <p class="col-12">
+            <strong>Error Message :</strong> <code>@Model.Message</code>
+        </p>
+    </div>
+</div>

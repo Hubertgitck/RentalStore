@@ -24,16 +24,9 @@ public class DbInitializer : IDbInitializer
     }
     public async Task Initialize()
     {
-        try
+        if (_dbContext.Database.GetPendingMigrations().Count() > 0)
         {
-            if (_dbContext.Database.GetPendingMigrations().Count() > 0)
-            {
-                _dbContext.Database.Migrate();
-            }
-        }
-        catch (Exception ex)
-        {
-            //TODO
+            _dbContext.Database.Migrate();
         }
 
         if (!await _roleManager.RoleExistsAsync(Constants.RoleAdmin))

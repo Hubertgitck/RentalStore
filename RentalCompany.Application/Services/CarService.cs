@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Org.BouncyCastle.Asn1.Ocsp;
 using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
+using RentalCompany.Application.Middleware.CustomExceptions;
 using RentalCompany.Infrastructure.Models;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
 
@@ -53,7 +53,7 @@ public class CarService : ICarService
 
         if (carFromDb == null)
 		{
-            throw new Exception($"Car with ID: {id} was not found in database");
+            throw new NotFoundException($"Car with ID: {id} was not found in database");
         }
 
         var carDto = _mapper.Map<CarDto>(carFromDb);
@@ -79,7 +79,7 @@ public class CarService : ICarService
 
         if (carToDeleteInDb == null)
         {
-            throw new Exception($"Car with ID: {id} was not found in database");
+            throw new NotFoundException($"Car with ID: {id} was not found in database");
         }
         _unitOfWork.Car.Remove(carToDeleteInDb);
         _unitOfWork.Save();

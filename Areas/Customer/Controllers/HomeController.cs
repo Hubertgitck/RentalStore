@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RentalCompany.Application.Dto;
 
 namespace RentalCompany.Areas.Customer.Controllers;
 
@@ -19,4 +20,10 @@ public class HomeController : Controller
 	{
 		return View();
 	}
+
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	public IActionResult Error([FromQuery] ErrorViewDto errorViewDto)
+	{
+        return View(errorViewDto);
+    }
 }

@@ -15,7 +15,6 @@ public class CarService : ICarService
 	private readonly IMapper _mapper;
 	private readonly IWebHostEnvironment _hostEnvironment;
 
-
 	public CarService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment hostEnvironment)
 	{
 		_unitOfWork = unitOfWork;

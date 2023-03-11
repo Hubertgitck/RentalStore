@@ -19,8 +19,7 @@ public class CarController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var result = await _carService.GetAllCars();
-        return View(result);
+        return View(await _carService.GetAllCars());
     }
 
     public IActionResult Add()

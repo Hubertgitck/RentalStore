@@ -11,5 +11,11 @@ public class MappingProfile : Profile
     {
         CreateMap<Car, CarDto>();
         CreateMap<CarDto, Car>();
+
+        CreateMap<RentalStore, RentalStoreDto>()
+            .ForMember(dest => dest.ContactDataDto, opt => opt.MapFrom(src => src.ContactData));
+
+        CreateMap<ContactData, ContactData>();
+        CreateMap<ContactDataDto, ContactData>();
     }
 }

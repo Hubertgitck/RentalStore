@@ -38,6 +38,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 builder.Services.AddScoped<ICarService, CarService>();
+builder.Services.AddScoped<IRentalStoreService, RentalStoreService>();
 
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 

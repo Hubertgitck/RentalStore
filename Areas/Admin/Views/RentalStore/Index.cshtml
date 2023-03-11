@@ -1,0 +1,70 @@
+﻿@using RentalCompany.Application.Dto;
+@model IEnumerable<RentalStoreDto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6 mb-4">
+            <h2 class="text-primary"> Rental Stores List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="RentalStore" asp-action="Add" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Add new store
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row mx-auto justify-content-center">
+        <table class="table table-bordered table-striped ">
+            <thead>
+                <tr>
+                    <th class="col-md-2">
+                        Store Name
+                    </th>
+                    <th class="col-md-6">
+                        City
+                    </th>
+                    <th class="col-md-2">
+                        Phone Number
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+
+                    <tr>
+                        <td class="col-md-1">
+                            @obj.Name
+                        </td>
+                        <td class="col-md-4">
+                            @obj.ContactDataDto.City
+                        </td>
+                        <td class="col-md-1">
+                            @obj.ContactDataDto.PhoneNumber
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a asp-controller="RentalStore" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2 px-4">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Edit
+                                </a>
+                                <a asp-controller="RentalStore" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-secondary mx-2">
+                                    <i class="bi bi-trash3"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

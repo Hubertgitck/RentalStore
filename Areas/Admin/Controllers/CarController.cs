@@ -44,5 +44,10 @@ public class CarController : Controller
         }
     }
 
+    public async Task<IActionResult> Edit(int? id)
+    {
+        return View(await _carService.GetCarById(id));
+    }
+
 }
 

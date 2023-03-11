@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Org.BouncyCastle.Asn1.Ocsp;
 using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
 using RentalCompany.Infrastructure.Models;
@@ -54,5 +55,24 @@ public class CarService : ICarService
 
 		return Task.CompletedTask;
 	}
+
+	public Task<CarDto> GetCarById(int? id)
+	{
+        if (id.GetValueOrDefault() == 0)
+        {
+            throw new ArgumentException("Invalid id");
+        }
+
+        var carFromDb = _unitOfWork.Car.GetFirstOrDefault(c => c.Id == id);
+
+        if (carFromDb == null)
+		{
+            throw new Exception($"Car with ID: {id} was not found in database");
+        }
+
+        var carDto = _mapper.Map<CarDto>(carFromDb);
+
+        return Task.FromResult(carDto);
+    }
 }
 

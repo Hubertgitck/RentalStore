@@ -45,4 +45,8 @@
     <ProjectReference Include="RentalCompany.Utility\RentalCompany.Utility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\cars\" />
+  </ItemGroup>
+
 </Project>

@@ -10,4 +10,9 @@ public class CarRepository : Repository<Car>, ICarRepository
     {
         _dbContext = dbContext;
     }
+
+    public void Update(Car car)
+    {
+        _dbContext.Cars.Update(car);
+    }
 }

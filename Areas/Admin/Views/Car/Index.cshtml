@@ -11,7 +11,7 @@
             <h2 class="text-primary"> Car List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Car" asp-action="Create" class="btn btn-primary">
+            <a asp-controller="Car" asp-action="Add" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> &nbsp; Add new car
             </a>
         </div>
@@ -52,11 +52,11 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2 px-4">
+                                <a asp-controller="Car" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2 px-4">
                                     <i class="bi bi-pencil-square"></i>
                                     Edit
                                 </a>
-                                <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-secondary mx-2">
+                                <a asp-controller="Car" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-secondary mx-2">
                                     <i class="bi bi-trash3"></i>
                                     Delete
                                 </a>

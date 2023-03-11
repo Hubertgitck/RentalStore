@@ -23,19 +23,19 @@ public class CarController : Controller
         return View(result);
     }
 
-	public IActionResult Create()
-	{
-		return View();
-	}
+    public IActionResult Add()
+    {
+        return View();
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CarDto carDto, IFormFile? file) 
+    public async Task<IActionResult> Add(CarDto carDto, IFormFile? file)
     {
         if (ModelState.IsValid)
         {
             await _carService.AddCarToDatabase(carDto, file);
-            TempData["success"] = $"Product created successfully";
+            TempData["success"] = $"Car added successfully";
             return RedirectToAction("Index");
         }
         else
@@ -49,5 +49,30 @@ public class CarController : Controller
         return View(await _carService.GetCarById(id));
     }
 
-}
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(CarDto carDto, IFormFile? file)
+    {
+        if (ModelState.IsValid)
+        {
+            await _carService.Edit(carDto, file);
+            TempData["success"] = "Car created succesfully";
+            return RedirectToAction("Index");
+        }
+        return View(carDto);
+    }
 
+    public async Task<IActionResult> Delete(int? id)
+    {
+        return View(await _carService.GetCarById(id));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeletePost(int? id)
+    {
+        await _carService.DeleteCarById(id);
+        TempData["success"] = "Car deleted succesfully";
+        return RedirectToAction("Index");
+    }
+}

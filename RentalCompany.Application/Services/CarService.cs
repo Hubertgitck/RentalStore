@@ -33,23 +33,9 @@ public class CarService : ICarService
 
 	public Task AddCarToDatabase(CarDto carDto, IFormFile? file)
 	{
-		string wwwRootPath = _hostEnvironment.WebRootPath;
-
-		if (file != null)
-		{
-			string fileName = Guid.NewGuid().ToString();
-			var uploads = Path.Combine(wwwRootPath, @"img\cars");
-			var extension = Path.GetExtension(file.FileName);
-
-			using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
-			{
-				file.CopyTo(fileStreams);
-			}
-			carDto.ImageUrl = @"\img\cars\" + fileName + extension;
-		}
+        carDto.ImageUrl = SaveImage(file);
 
 		var carToDb = _mapper.Map<Car>(carDto);
-
 		_unitOfWork.Car.Add(carToDb);
 		_unitOfWork.Save();
 
@@ -73,6 +59,58 @@ public class CarService : ICarService
         var carDto = _mapper.Map<CarDto>(carFromDb);
 
         return Task.FromResult(carDto);
+    }
+
+	public Task Edit(CarDto carDto, IFormFile? file)
+    {
+		DeleteOldImage(carDto.ImageUrl);
+		carDto.ImageUrl = SaveImage(file);
+
+        var carToEditInDb = _mapper.Map<Car>(carDto);
+        _unitOfWork.Car.Update(carToEditInDb);
+        _unitOfWork.Save();
+
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteCarById(int? id)
+    {
+        var carToDeleteInDb = _unitOfWork.Car.GetFirstOrDefault(u => u.Id == id);
+
+        if (carToDeleteInDb == null)
+        {
+            throw new Exception($"Car with ID: {id} was not found in database");
+        }
+        _unitOfWork.Car.Remove(carToDeleteInDb);
+        _unitOfWork.Save();
+
+        return Task.CompletedTask;
+    }
+
+	private string SaveImage(IFormFile? file)
+	{
+		string savedImageUrl = "";
+        if (file != null)
+        {
+            string fileName = Guid.NewGuid().ToString();
+            var uploads = Path.Combine(_hostEnvironment.WebRootPath, @"img\cars");
+            var extension = Path.GetExtension(file.FileName);
+
+            using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+            {
+                file.CopyTo(fileStreams);
+            }
+            savedImageUrl = @"\img\cars\" + fileName + extension;
+        }
+		return savedImageUrl;
+    }
+    private void DeleteOldImage(string imgUrl)
+    {
+        var oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, imgUrl.TrimStart('\\'));
+        if (File.Exists(oldImagePath))
+        {
+            File.Delete(oldImagePath);
+        }
     }
 }
 

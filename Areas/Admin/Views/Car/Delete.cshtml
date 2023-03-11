@@ -1,0 +1,45 @@
+﻿@using RentalCompany.Application.Dto;
+@model CarDto
+@{
+    ViewData["Title"] = "Delete";
+}
+<div class="container-fluid">
+    <form method="post" asp-action="DeletePost">
+        <input asp-for="Id" hidden />
+        <div class="row col-md-10 mx-auto">
+            <div class="col-6">
+                <div class="border p-3 mt-4 row">
+                    <div class="row pb-2">
+                        <h2 class="text-primary">Delete Car </h2>
+                        <hr />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control" disabled="true" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" rows="3" class="form-control" disabled="true"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="DayRentalPrice">Price for one day of rent</label>
+                        <input asp-for="DayRentalPrice" class="form-control" disabled="true" />
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary" style="width:150px">Delete</button>
+                        <a asp-controller="Car" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 pt-4">
+                <img src="@Model.ImageUrl" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

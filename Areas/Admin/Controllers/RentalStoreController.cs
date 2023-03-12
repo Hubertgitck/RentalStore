@@ -35,7 +35,7 @@ public class RentalStoreController : Controller
         if (ModelState.IsValid)
         {
             await _rentalStoreService.AddRentalStore(rentalStoreDto);
-            TempData["success"] = "Rental Store added sucesfully";
+            TempDataHelper.SetSuccess(this, "Rental Store added sucesfully");
             return RedirectToAction("Index");
         }
         return View(rentalStoreDto);
@@ -53,7 +53,7 @@ public class RentalStoreController : Controller
         if (ModelState.IsValid)
         {
             await _rentalStoreService.EditRentalStore(rentalStoreDto);
-            TempData["success"] = "Rental Store updated succesfully";
+            TempDataHelper.SetSuccess(this, "Rental Store updated succesfully");
             return RedirectToAction("Index");
         }
         return View(rentalStoreDto);
@@ -69,7 +69,7 @@ public class RentalStoreController : Controller
     public async Task<IActionResult> DeletePost(int? id)
     {
         await _rentalStoreService.DeleteRentalStoreById(id);
-        TempData["success"] = "Rental store deleted succesfully";
+        TempDataHelper.SetSuccess(this, "Rental store deleted succesfully");
         return RedirectToAction("Index");
     }
 }

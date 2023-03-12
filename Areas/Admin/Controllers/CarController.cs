@@ -34,7 +34,7 @@ public class CarController : Controller
         if (ModelState.IsValid)
         {
             await _carService.AddCarToDatabase(carDto, file);
-            TempData["success"] = $"Car added successfully";
+            TempDataHelper.SetSuccess(this, "Car added successfully");
             return RedirectToAction("Index");
         }
         else
@@ -55,7 +55,7 @@ public class CarController : Controller
         if (ModelState.IsValid)
         {
             await _carService.Edit(carDto, file);
-            TempData["success"] = "Car created succesfully";
+            TempDataHelper.SetSuccess(this, "Car created succesfully");
             return RedirectToAction("Index");
         }
         return View(carDto);
@@ -71,7 +71,7 @@ public class CarController : Controller
     public async Task<IActionResult> DeletePost(int? id)
     {
         await _carService.DeleteCarById(id);
-        TempData["success"] = "Car deleted succesfully";
+        TempDataHelper.SetSuccess(this, "Car deleted succesfully");
         return RedirectToAction("Index");
     }
 }

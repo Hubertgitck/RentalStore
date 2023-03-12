@@ -65,4 +65,18 @@ public class RentalStoreService : IRentalStoreService
 
         return Task.CompletedTask;
     }
+
+    public Task DeleteRentalStoreById(int? id)
+    {
+        var rentalStoreToDeleteFromDb = _unitOfWork.RentalStore.GetFirstOrDefault(u => u.Id == id);
+
+        if (rentalStoreToDeleteFromDb == null)
+        {
+            throw new NotFoundException($"Rental store with ID: {id} was not found in database");
+        }
+        _unitOfWork.RentalStore.Remove(rentalStoreToDeleteFromDb);
+        _unitOfWork.Save();
+
+        return Task.CompletedTask;
+    }
 }

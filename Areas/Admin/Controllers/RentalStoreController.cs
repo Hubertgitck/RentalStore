@@ -58,4 +58,18 @@ public class RentalStoreController : Controller
         }
         return View(rentalStoreDto);
     }
+
+    public async Task<IActionResult> Delete(int? id)
+    {
+        return View(await _rentalStoreService.GetRentalStoreById(id));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeletePost(int? id)
+    {
+        await _rentalStoreService.DeleteRentalStoreById(id);
+        TempData["success"] = "Rental store deleted succesfully";
+        return RedirectToAction("Index");
+    }
 }

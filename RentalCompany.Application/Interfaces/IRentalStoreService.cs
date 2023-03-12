@@ -8,4 +8,5 @@ public interface IRentalStoreService
     Task AddRentalStore(RentalStoreDto rentalStoreDto);
     Task<RentalStoreDto> GetRentalStoreById(int? id);
     Task EditRentalStore(RentalStoreDto rentalStoreDto);
+    Task DeleteRentalStoreById(int? id);
 }

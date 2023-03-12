@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="~/css/theme.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/application.css" asp-append-version="true" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
 </head>
 <body>
 	<div class="container-fluid py-0 g-0">
@@ -33,8 +35,8 @@
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">CMS</a>
 								<div class="dropdown-menu">
-									<a class="dropdown-item" asp-area="Admin" asp-controller="RentalStore" asp-action="Index">Stores</a>
-									<a class="dropdown-item" asp-area="Admin" asp-controller="Car"  asp-action="Index">TeslaModels</a>
+									<a class="dropdown-item" asp-area="Admin" asp-controller="RentalStore" asp-action="Index">Rental Stores</a>
+									<a class="dropdown-item" asp-area="Admin" asp-controller="Car"  asp-action="Index">Tesla Cars</a>
 									<a class="dropdown-item" asp-action="Index">Manage Rents</a>
 									@if (User.IsInRole(Constants.RoleAdmin))
 									{
@@ -54,6 +56,7 @@
 
     <div class="container-fluid py-0 g-0">
         <main role="main" class="pb-3">
+			<partial name="_Notification" />
             @RenderBody()
         </main>
     </div>
@@ -68,6 +71,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

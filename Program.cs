@@ -10,6 +10,7 @@ using RentalCompany.Application.EmailSender;
 using RentalCompany.Application.Interfaces;
 using RentalCompany.Application.Services;
 using RentalCompany.Application.Middleware;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -12,5 +12,6 @@ public class ContactData
     public string PostalCode { get; set; }
     [Required]
     public string PhoneNumber { get; set; }
+    [EmailAddress]
     public string EmailAddress { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using RentalCompany.Infrastructure.Models;
 
 namespace RentalCompany.Application.Dto;
@@ -9,5 +10,6 @@ public class RentalStoreDto
     [Required]
     public string Name { get; set; }
     public ContactDataDto ContactDataDto { get; set; }
-    public List<AvailableCar> AvailableCars { get; set; }
+    [ValidateNever]
+    public ICollection<AvailableCar> AvailableCars { get; set; }
 }

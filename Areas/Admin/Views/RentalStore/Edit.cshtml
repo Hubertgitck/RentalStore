@@ -1,0 +1,62 @@
+﻿@using RentalCompany.Application.Dto;
+@model RentalStoreDto
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="container-fluid">
+    <form method="post">
+        <div class="row col-md-6 mx-auto">
+            <div class="border p-3 mt-4 row">
+                <div class="row pb-2">
+                    <h2 class="text-primary">Edit Rental Store </h2>
+                    <hr />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="ContactDataDto.City"></label>
+                    <input asp-for="ContactDataDto.City" class="form-control">
+                    <span asp-validation-for="ContactDataDto.City" class="text-danger"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="ContactDataDto.StreetAddress"></label>
+                    <input asp-for="ContactDataDto.StreetAddress" class="form-control">
+                    <span asp-validation-for="ContactDataDto.StreetAddress" class="text-danger"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="ContactDataDto.State"></label>
+                    <input asp-for="ContactDataDto.State" class="form-control">
+                    <span asp-validation-for="ContactDataDto.State" class="text-danger"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="ContactDataDto.PostalCode"></label>
+                    <input asp-for="ContactDataDto.PostalCode" class="form-control">
+                    <span asp-validation-for="ContactDataDto.PostalCode" class="text-danger"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="ContactDataDto.EmailAddress"></label>
+                    <input asp-for="ContactDataDto.EmailAddress" class="form-control">
+                    <span asp-validation-for="ContactDataDto.EmailAddress" class="text-danger"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="ContactDataDto.PhoneNumber"></label>
+                    <input asp-for="ContactDataDto.PhoneNumber" class="form-control">
+                    <span asp-validation-for="ContactDataDto.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+                    <a asp-controller="RentalStore" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

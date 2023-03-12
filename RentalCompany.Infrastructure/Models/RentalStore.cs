@@ -9,9 +9,9 @@ public class RentalStore
     public string Name { get; set; }
     [ForeignKey("ContactDataId")]
     public int ContactDataId { get; set; }
-    public virtual ContactData ContactData { get; set; }
 
-    public virtual List<AvailableCar> AvailableCars { get; set; }
+    public virtual ContactData ContactData { get; set; }
+    public virtual ICollection<AvailableCar> AvailableCars { get; set; }
     public virtual ICollection<RentHeader> PickupPlaces { get; set; }
     public virtual ICollection<RentHeader> ReturnPlaces { get; set; }
 

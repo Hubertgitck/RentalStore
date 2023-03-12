@@ -2,7 +2,7 @@
 using RentalCompany.Application.Dto;
 using RentalCompany.Infrastructure.Models;
 
-namespace RentalCompany.Dto;
+namespace RentalCompany.Automapper;
 
 public class MappingProfile : Profile
 {
@@ -12,10 +12,18 @@ public class MappingProfile : Profile
         CreateMap<Car, CarDto>();
         CreateMap<CarDto, Car>();
 
+        CreateMap<ContactData, ContactDataDto>();
+        CreateMap<ContactDataDto, ContactData>();
+
         CreateMap<RentalStore, RentalStoreDto>()
             .ForMember(dest => dest.ContactDataDto, opt => opt.MapFrom(src => src.ContactData));
+        CreateMap<RentalStoreDto, RentalStore>()
+            .ForMember(dest => dest.ContactData, opt => opt.MapFrom(src => src.ContactDataDto))
+            .ForMember(dest => dest.PickupPlaces, opt => opt.Ignore())
+            .ForMember(dest => dest.ReturnPlaces, opt => opt.Ignore());
 
-        CreateMap<ContactData, ContactData>();
-        CreateMap<ContactDataDto, ContactData>();
+
     }
+
+
 }

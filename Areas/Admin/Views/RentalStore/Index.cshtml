@@ -25,8 +25,11 @@
                     <th class="col-md-2">
                         Store Name
                     </th>
-                    <th class="col-md-6">
+                    <th class="col-md-2">
                         City
+                    </th>
+                    <th class="col-md-4">
+                        Address
                     </th>
                     <th class="col-md-2">
                         Phone Number
@@ -41,13 +44,16 @@
                 {
 
                     <tr>
-                        <td class="col-md-1">
+                        <td class="col-md-2">
                             @obj.Name
                         </td>
-                        <td class="col-md-4">
+                        <td class="col-md-2">
                             @obj.ContactDataDto.City
                         </td>
-                        <td class="col-md-1">
+                        <td class="col-md-4">
+                            @obj.ContactDataDto.StreetAddress, @obj.ContactDataDto.PostalCode, @obj.ContactDataDto.State
+                        </td>
+                        <td class="col-md-2">
                             @obj.ContactDataDto.PhoneNumber
                         </td>
                         <td>

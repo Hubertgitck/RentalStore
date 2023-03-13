@@ -16,4 +16,5 @@ public class RentalStoreRepository : Repository<RentalStore>, IRentalStoreReposi
     {
         _dbContext.Update(rentalStore);
     }
+
 }

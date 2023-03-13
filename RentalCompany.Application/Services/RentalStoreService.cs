@@ -1,5 +1,6 @@
-﻿using AutoMapper;
-using Org.BouncyCastle.Asn1.Ocsp;
+﻿using System.Linq.Expressions;
+using AutoMapper;
+using Microsoft.VisualBasic;
 using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
 using RentalCompany.Application.Middleware.CustomExceptions;
@@ -78,5 +79,66 @@ public class RentalStoreService : IRentalStoreService
         _unitOfWork.Save();
 
         return Task.CompletedTask;
+    }
+
+    public Task<RentalStoreSelectDto> GetSelectCarsView(int? id)
+    {
+        RentalStoreSelectDto rentalStoreSelectDto = new()
+        {
+            RentalStoreDto = GetRentalStoreById(id).Result,
+            NumberOfAvailableCars = GetAvailableCars(id),
+            CarsList = _mapper.Map<ICollection<CarDto>>(_unitOfWork.Car.GetAll().ToList())
+        };
+
+        return Task.FromResult(rentalStoreSelectDto);
+    }
+
+    private Dictionary<int, int> GetAvailableCars(int? id)
+    {
+        var result = new Dictionary<int, int>();
+        var listFromDb = _unitOfWork.AvailableCar.GetAll(u => u.RentalStoreId == id);
+
+        foreach (var element in listFromDb)
+        {
+            result.Add(element.CarId, element.CarsCount);
+        }
+        return result;
+    }
+
+    public Task AddAvailableCars(RentalStoreSelectDto rentalStoreSelectDto)
+    {
+        var rentalStoreFromDb = _unitOfWork.RentalStore.GetFirstOrDefault(u => u.Id == rentalStoreSelectDto.RentalStoreDto.Id);
+
+        if (rentalStoreFromDb.AvailableCars == null)
+        {
+            rentalStoreFromDb.AvailableCars = new List<AvailableCar>();
+        }
+
+        foreach (KeyValuePair<int, int> entry in rentalStoreSelectDto.NumberOfAvailableCars)
+        {
+            var car = new AvailableCar()
+            {
+                CarId = entry.Key,
+                CarsCount = entry.Value,
+                RentalStoreId = rentalStoreSelectDto.RentalStoreDto.Id
+            };
+            rentalStoreFromDb.AvailableCars.Add(car);
+        }
+
+        _unitOfWork.Save();
+
+        return Task.CompletedTask;
+    }
+
+    public async Task<IEnumerable<CarDto>> GetStockByRentalStoreId(int id)
+    {
+        List<CarDto>stockList = new();
+        
+        foreach(var element in GetAvailableCars(id))
+        {
+            var carDto = _mapper.Map<CarDto>(_unitOfWork.Car.GetFirstOrDefault(u => u.Id == element.Key));
+            stockList.Add(carDto);
+        }
+        return await Task.FromResult(stockList);
     }
 }

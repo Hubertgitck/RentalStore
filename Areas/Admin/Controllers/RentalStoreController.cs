@@ -72,4 +72,20 @@ public class RentalStoreController : Controller
         TempDataHelper.SetSuccess(this, "Rental store deleted succesfully");
         return RedirectToAction("Index");
     }
+
+    public async Task<IActionResult> SelectCars(int? id)
+    {
+
+        return View(await _rentalStoreService.GetSelectCarsView(id));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SelectCars(RentalStoreSelectDto rentalStoreSelectDto)
+    {
+        await _rentalStoreService.AddAvailableCars(rentalStoreSelectDto);
+        return RedirectToAction("Index");
+    }
+
+
 }

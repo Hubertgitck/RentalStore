@@ -1,0 +1,61 @@
+﻿@using RentalCompany.Application.Dto;
+@model RentalStoreSelectDto
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="container-fluid">
+    <form method="post">
+        <input type="hidden" asp-for="RentalStoreDto.Id" />
+        <div class="row col-md-6 mx-auto">
+            <div class="border p-3 mt-4 row">
+                <div class="row pb-2">
+                    <h2 class="text-primary">Edit @Model.RentalStoreDto.Name's available cars </h2>
+                    <hr />
+                </div>
+                <div class="col-8 mb-3">
+                    <label asp-for="RentalStoreDto.Name"></label>
+                    <input asp-for="RentalStoreDto.Name" class="form-control" disabled="true" />
+                </div>
+                @for (int i = 0; i < Model.CarsList.Count; i++)
+                {
+                    <div>
+                        <input type="checkbox" id="@Model.CarsList.ElementAt(i).Id" name="selectedCars" value="@Model.CarsList.ElementAt(i).Id" class="car-checkbox" />
+                        <label for="@Model.CarsList.ElementAt(i).Id">@Model.CarsList.ElementAt(i).Name, Price: @Model.CarsList.ElementAt(i).DayRentalPrice</label>
+                        <br />
+                    </div>
+                }
+                <input type="hidden" id="selectedCarIds" name="selectedCarIds" value="" />
+
+                <div class="col-12 mt-3">
+                    <button type="submit" class="btn btn-primary" style="width:150px">Apply</button>
+                    <a asp-controller="RentalStore" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <script>
+        $(function () {
+            $('.car-checkbox').click(function () {
+                var carId = $(this).attr('id');
+                var input = $(this).parent().find('#numberOfAvailableCars_' + carId);
+
+                if ($(this).is(':checked')) {
+                    if (input.length == 0) {
+                        input = $('<label for="numberOfAvailableCars_' + carId + '">Number of Available Cars:</label><div class="col-2"><input type="number" min="1" step="1" name="numberOfAvailableCars[' + carId + ']" class="form-control" id="numberOfAvailableCars_' + carId + '" /></div>');
+                        $(this).parent().append(input);
+                    }
+                } else {
+                    $('label[for="numberOfAvailableCars_'+ carId +'"]').remove();
+                    input.parent().remove();
+                }
+            });
+        });
+    </script>
+}

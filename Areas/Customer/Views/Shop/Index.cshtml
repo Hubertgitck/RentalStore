@@ -1,0 +1,51 @@
+﻿@using RentalCompany.Application.Dto;
+@model IEnumerable<RentalStoreDto>
+
+@{
+    ViewData["Title"] = "Stores";
+}
+<div class="col-6 mx-auto mt-4 mb-3 text-center border-bottom">
+    <h2>Choose Rental Store to check models availability</h2>
+</div>
+
+<div class="row py-3 px-5 col-xl-8 mx-auto ">
+    @foreach (var store in Model)
+    {
+        <div class="col-lg-6 col-md-8 col-sm-10 rounded">
+            <div class="row p-2">
+                <div class="col-12 pb-1">
+                    <div class="card border-0 pb-1">
+                        <div class="mx-auto p-1 border border-2 rounded-3 card-container col-8">
+                            <div class="card-body">
+                                <div>
+                                    <h1 class="card-title h5 text-primary">@store.Name</h1>
+                                </div>
+                                <div >
+                                    <p class="card-text">
+                                        <h3> @store.ContactDataDto.City</h3>
+                                    </p>
+                                    <p class="card-text">
+                                        <b> @store.ContactDataDto.StreetAddress</b>
+                                    </p>
+                                    <p class="card-text">
+                                        <i>
+                                            <b> @store.ContactDataDto.PhoneNumber</b>
+                                            <br>
+                                            <b> @store.ContactDataDto.EmailAddress</b>
+                                        </i>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-6 mx-auto pb-1">
+                                <a asp-action="Stock" class="btn btn-primary form-control"
+                               asp-route-id="@store.Id">
+                                    Check offer
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

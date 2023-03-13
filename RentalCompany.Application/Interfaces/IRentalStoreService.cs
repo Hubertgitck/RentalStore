@@ -11,5 +11,4 @@ public interface IRentalStoreService
     Task DeleteRentalStoreById(int? id);
     Task<RentalStoreSelectDto> GetSelectCarsView(int? id);
     Task AddAvailableCars(RentalStoreSelectDto rentalStoreSelectDto);
-    Task<IEnumerable<CarDto>> GetStockByRentalStoreId(int id);
 }

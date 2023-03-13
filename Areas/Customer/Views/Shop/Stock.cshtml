@@ -1,0 +1,48 @@
+﻿@using RentalCompany.Application.Dto;
+@model ShopIndexDto
+
+@{
+    ViewData["Title"] = "Shop";
+}
+<div class="col-6 mx-auto mt-4 mb-3 text-center border-bottom d-flex">
+    <div class="col-10">
+        <h2>Displaying stock for @Model.RentalStoreName</h2>
+    </div>
+    <div class="col-1">
+        <a asp-action="Index" class="btn btn-info">
+            <i class="bi bi-arrow-return-left"></i>Back
+        </a>
+    </div>  
+</div>
+
+<div class="row py-3 px-5 col-xl-11 mx-auto ">
+    @foreach (var car in Model.CarsInStock)
+    {
+        <div class="col-lg-4 col-md-6 col-sm-10 rounded container-fluid d-flex">
+            <div class="row p-2">
+                <div class="col-12 pb-1 d-flex align-items-stretch">
+                    <div class="card border-0 pb-1">
+                        <div class="mx-auto p-1 border border-2 rounded-3 card-container">
+                            <div class="card-body">
+                                <img src="@car.ImageUrl" class="card-img-top mx-auto rounded" />
+                                <div>
+                                    <p class="card-title h5 text-primary">@car.Name</p>
+                                </div>
+                                <div>
+                                    <p class="card-text">
+                                        Price for one day: <b>$@car.DayRentalPrice.ToString("0.00")</b>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-6 mx-auto pb-1">
+                                <a asp-action="Details" class="btn btn-primary form-control" asp-route-id="@car.Id">
+                                    Book
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

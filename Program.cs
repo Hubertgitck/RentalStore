@@ -40,6 +40,7 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<IRentalStoreService, RentalStoreService>();
+builder.Services.AddScoped<IShopService, ShopService>();
 
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 

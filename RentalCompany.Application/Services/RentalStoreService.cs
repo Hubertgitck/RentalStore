@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-using AutoMapper;
-using Microsoft.VisualBasic;
+﻿using AutoMapper;
 using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
 using RentalCompany.Application.Middleware.CustomExceptions;
@@ -128,17 +126,5 @@ public class RentalStoreService : IRentalStoreService
         _unitOfWork.Save();
 
         return Task.CompletedTask;
-    }
-
-    public async Task<IEnumerable<CarDto>> GetStockByRentalStoreId(int id)
-    {
-        List<CarDto>stockList = new();
-        
-        foreach(var element in GetAvailableCars(id))
-        {
-            var carDto = _mapper.Map<CarDto>(_unitOfWork.Car.GetFirstOrDefault(u => u.Id == element.Key));
-            stockList.Add(carDto);
-        }
-        return await Task.FromResult(stockList);
     }
 }

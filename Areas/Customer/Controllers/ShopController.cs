@@ -31,8 +31,10 @@ public class ShopController : Controller
     public async Task<IActionResult> BookSummary(BookViewDto bookViewDto)
     {
         var rentHeaderId = await _shopService.AddOrderHeader(bookViewDto, User);
-        return RedirectToAction("GetSumamry", new { id = rentHeaderId });
+        return RedirectToAction("Summary", new { id = rentHeaderId });
     }
-
-
+    public async Task<IActionResult> Summary(int id)
+    {
+        return View(await _shopService.GetRentHeaderById(id));
+    }
 }

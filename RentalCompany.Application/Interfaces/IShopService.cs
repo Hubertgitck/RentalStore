@@ -9,4 +9,5 @@ public interface IShopService
     Task<IEnumerable<RentalStoreDto>> GetAllStores();
     Task<BookViewDto> GetBookViewByCarIdAndStoreId(int id, int storeId);
     Task<int> AddOrderHeader(BookViewDto bookViewDto, ClaimsPrincipal userClaims);
+    Task<RentHeaderDto> GetRentHeaderById(int id);
 }

@@ -91,6 +91,12 @@ public class ShopService : IShopService
         return await Task.FromResult(rentHeader.Id);
     }
 
+    public async Task<RentHeaderDto> GetRentHeaderById(int id)
+    {
+        var rentHeader = _unitOfWork.RentHeader.GetFirstOrDefault(u => u.Id == id, includeProperties: "Car,PickupRentalStore,ReturnRentalStore,ApplicationUser");
+        var rentHeaderDto = _mapper.Map<RentHeaderDto>(rentHeader);
 
+        return await Task.FromResult(rentHeaderDto);
+    }
 }
 

@@ -18,8 +18,10 @@ public class RentHeaderDto
     [Required]
     public string RentStatus { get; set; }
     [Required]
+    [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
     public DateTime StartDate { get; set; }
     [Required]
+    [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
     public DateTime EndDate { get; set; }
     [Required]
     [Display(Name = "Pickup rental store")]

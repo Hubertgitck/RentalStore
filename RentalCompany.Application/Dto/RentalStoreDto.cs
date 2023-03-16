@@ -6,8 +6,9 @@ namespace RentalCompany.Application.Dto;
 
 public class RentalStoreDto
 {
+    [Required(ErrorMessage = "Choose rental store")]
     public int Id { get; set; }
-    [Required]
+    [Required(ErrorMessage = "Choose rental store")]
     public string Name { get; set; }
     public ContactDataDto ContactDataDto { get; set; }
     [ValidateNever]

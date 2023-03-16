@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="~/css/application.css" asp-append-version="true" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-
+	@await RenderSectionAsync("HeaderScripts", required: false)
 </head>
 <body>
 	<div class="container-fluid py-0 g-0">

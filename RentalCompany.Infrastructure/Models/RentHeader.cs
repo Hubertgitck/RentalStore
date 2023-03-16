@@ -17,9 +17,12 @@ public class RentHeader
     public virtual Car Car { get; set; }
 
     [Required]
+    [ValidateNever]
     public double TotalCost { get; set; }
     [Required]
     public string RentStatus { get; set; }
+    [Required]
+    public string RentPaymentStatus { get; set; }
     [Required]
     public DateTime StartDate { get; set; }
     [Required]
@@ -34,7 +37,6 @@ public class RentHeader
     
     [ForeignKey("ReturnRentalStoreId")]
     [InverseProperty("ReturnPlaces")]
-
     public virtual RentalStore ReturnRentalStore { get; set; }
 
 }

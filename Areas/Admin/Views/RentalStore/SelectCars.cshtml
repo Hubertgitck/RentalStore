@@ -20,7 +20,7 @@
                 {
                     <div>
                         <input type="checkbox" id="@Model.CarsList.ElementAt(i).Id" name="selectedCars" value="@Model.CarsList.ElementAt(i).Id" class="car-checkbox" />
-                        <label for="@Model.CarsList.ElementAt(i).Id">@Model.CarsList.ElementAt(i).Name, Price: @Model.CarsList.ElementAt(i).DayRentalPrice</label>
+                        <label for="@Model.CarsList.ElementAt(i).Id">@Model.CarsList.ElementAt(i).Name, Price: @Model.CarsList.ElementAt(i).DayRentalPrice.ToString("c")</label>
                         <br />
                     </div>
                 }

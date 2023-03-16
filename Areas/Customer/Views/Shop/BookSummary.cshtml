@@ -1,0 +1,79 @@
+﻿@using RentalCompany.Application.Dto;
+@model RentHeaderDto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container-fluid">
+    <form method="post">
+        <input hidden asp-for="CarDto.Id" />
+        <div class="card border-0 container pt-4">
+            <div class="card-header rounded bg-primary text-light row ">
+                <div class="col-12 col-md-6">
+                    <h1>@Model.CarDto.Name</h1>
+                </div>
+            </div>
+            <div class="card-body row container">
+                <div class="container rounded p-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                            <div class="row col-12">
+                                <label class="col-auto" asp-for="CarDto.DayRentalPrice">Price for one day:</label>
+                                <input hidden asp-for="CarDto.DayRentalPrice" />
+                                <div class="col-auto">
+                                    @Model.CarDto.DayRentalPrice.ToString("c")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="py-3 ">
+                                    <t class="text-info">@Model.CarDto.Description</t>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-auto" asp-for="TotalCost">Total price:</label>
+                                <input asp-for="TotalCost" type="number" disabled="true" />
+                            </div>
+                            <div class="row col-6 my-3">
+                                <input hidden asp-for="PickupRentalStoreId" />
+                                <label asp-for="PickupRentalStore.Name">Pickup rental store</label>
+                                <input asp-for="PickupRentalStore.Name" class="form-control" disabled="true" />
+                            </div>
+                            <div class="row col-6 my-3">
+                                <label asp-for="StartDate">Pickup Date</label>
+                                <input type="datetime" asp-for="StartDate" disabled="true" />
+                            </div>
+                            <div class="row col-6 my-3">
+                                <input hidden asp-for="ReturnRentalStore" />
+                                <label asp-for="ReturnRentalStore.Name">Return rental store</label>
+                                <input asp-for="ReturnRentalStore.Name" class="form-control" disabled="true" />
+                            </div>
+                            <div class="row col-6 my-3">
+                                <label asp-for="EndDate">Return Date</label>
+                                <input type="datetime" asp-for="EndDate" disabled="true" />
+                            </div>
+ 
+                        </div>
+                        <div class="col-sm-12 col-md-6 offset-lg-1 text-center">
+                            <img src="@Model.CarDto.ImageUrl" width="100%" class="rounded" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row col-8 mx-auto">
+                    <div class="col-12 col-md-6 py-1">
+                        <button class="btn btn-outline-dark form-control " style="height:50px;" asp-action="Book">
+                            Back
+                        </button>
+                    </div>
+                    <div class="col-12 col-md-6 py-1">
+                        <button asp-action="Payment" style="height:50px;" class="btn btn-primary form-control">
+                            Proceed to payment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

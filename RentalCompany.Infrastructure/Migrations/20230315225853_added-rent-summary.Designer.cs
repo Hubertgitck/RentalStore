@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentalCompany.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using RentalCompany.Infrastructure.Data;
 namespace RentalCompany.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230315225853_added-rent-summary")]
+    partial class addedrentsummary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -360,10 +362,6 @@ namespace RentalCompany.Infrastructure.Migrations
                     b.Property<int>("PickupRentalStoreId")
                         .HasColumnType("int");
 
-                    b.Property<string>("RentPaymentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("RentStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -388,6 +386,32 @@ namespace RentalCompany.Infrastructure.Migrations
                     b.HasIndex("ReturnRentalStoreId");
 
                     b.ToTable("RentHeaders");
+                });
+
+            modelBuilder.Entity("RentalCompany.Infrastructure.Models.RentSummary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RentHeaderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("TotalCost")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("RentHeaderId");
+
+                    b.ToTable("RentSummaries");
                 });
 
             modelBuilder.Entity("RentalCompany.Infrastructure.Models.ApplicationUser", b =>
@@ -527,6 +551,25 @@ namespace RentalCompany.Infrastructure.Migrations
                     b.Navigation("PickupRentalStore");
 
                     b.Navigation("ReturnRentalStore");
+                });
+
+            modelBuilder.Entity("RentalCompany.Infrastructure.Models.RentSummary", b =>
+                {
+                    b.HasOne("RentalCompany.Infrastructure.Models.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RentalCompany.Infrastructure.Models.RentHeader", "RentHeader")
+                        .WithMany()
+                        .HasForeignKey("RentHeaderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+
+                    b.Navigation("RentHeader");
                 });
 
             modelBuilder.Entity("RentalCompany.Infrastructure.Models.RentalStore", b =>

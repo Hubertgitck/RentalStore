@@ -1,0 +1,149 @@
+﻿@using RentalCompany.Application.Dto;
+@model BookViewDto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section HeaderScripts{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="~/css/datepicker.css" asp-append-version="true">
+}
+
+<div class="container-fluid">
+    <form method="post">
+        <input hidden asp-for="CarDto.Id" />
+        <input hidden type="datetime" asp-for="RentHeaderDto.StartDate" />
+        <input hidden type="datetime" asp-for="RentHeaderDto.EndDate" />
+        <div class="card border-0 container pt-4">
+            <div class="card-header rounded bg-primary text-light row ">
+                <div class="col-12 col-md-6">
+                    <h1>@Model.CarDto.Name</h1>
+                </div>
+            </div>
+            <div class="card-body row container">
+                <div class="container rounded p-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                            <div class="row col-12">
+                                <label class="col-auto" asp-for="CarDto.DayRentalPrice">Price for one day:</label>
+                                <input hidden asp-for="CarDto.DayRentalPrice"/>
+                                <div class="col-auto">
+                                    @Model.CarDto.DayRentalPrice.ToString("c")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="py-3 ">
+                                    <t class="text-info">@Model.CarDto.Description</t>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="datepicker">Choose date:</label>
+                                <div type="text" id="datepicker"></div>
+                            </div>
+                            <div class="row mt-2">
+                                <label class="col-auto" asp-for="RentHeaderDto.TotalCost">Total price:</label>
+                                <input class="col-3" asp-for="RentHeaderDto.TotalCost" type="number" class="form-control" readonly="true" />
+                            </div>
+                            <div class="row col-6 my-3 disabled">
+                                <div class="ms-1">
+                                    <input hidden asp-for="RentHeaderDto.PickupRentalStore.Id" />
+                                    <label asp-for="RentHeaderDto.PickupRentalStore.Name">Pickup rental store</label>
+                                    <input asp-for="RentHeaderDto.PickupRentalStore.Name" class="form-control" disabled="true" />
+                                </div>
+                            </div>
+                            <div class="row col-6 my-3">
+                                <div class="ms-1">
+                                    <label asp-for="RentHeaderDto.ReturnRentalStore.Id">Return rental store</label>
+                                    <select asp-for="RentHeaderDto.ReturnRentalStore.Id" asp-items="@Model.RentalStores" class="form-select">
+                                        <option disabled selected>--Select Return place--</option>
+                                    </select>
+                                    <span asp-validation-for="RentHeaderDto.ReturnRentalStore.Id" class="text-danger"></span>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 offset-lg-1 text-center">
+                            <img src="@Model.CarDto.ImageUrl" width="100%" class="rounded" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row col-8 mx-auto">
+                    <div class="col-12 col-md-6 py-1">
+                        <button class="btn btn-outline-dark form-control " style="height:50px;" asp-action="Index">
+                            Back to List
+                        </button>
+                    </div>
+                    <div class="col-12 col-md-6 py-1">
+                        <button asp-action="BookSummary" style="height:50px;" class="btn btn-primary form-control">
+                            Summary
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+    
+    <script>
+        $(document).ready(function () {
+            var notAvailable = ["2023-03-19", "2023-03-15", "2023-03-15", "2023-03-21"];
+            var startDate = null;
+            var endDate = null;
+            var totalCost = 0;
+            var startAsDateTime = 0;
+            var endDateAsTime = 0;
+            var oneDayAsTime = 1000 * 3600 * 24;
+
+            $("#datepicker").datepicker({
+                dateFormat: "yy-mm-dd",
+                multidate: true,
+                beforeShowDay: function (date) {
+                    var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                    if (notAvailable.indexOf(string) != -1) {
+                        return [false];
+                    }
+                    if ((startDate != null) && (endDate != null) && (startDate != endDate)){
+                        var currentDateAsTime = new Date(date).getTime();
+                        if ((currentDateAsTime >= startAsDateTime) && (currentDateAsTime <= endDateAsTime)) {
+                            return [true, 'highlight'];
+                        }
+                    }
+                    return [true,''];
+                },
+                onSelect: function (date) {
+                    if (startDate === null) {
+                        startDate = date;
+                        endDate = date;
+                    } else if (date <= startDate) {
+                        startDate = date;
+                    } else if (date >= startDate && date <= endDate) {
+                        startDate = date;
+                    } else if (date >= startDate && date >= endDate) {
+                        endDate = date;
+                    }
+                    startAsDateTime = new Date(startDate).getTime() - oneDayAsTime;
+                    endDateAsTime = new Date(endDate).getTime();
+
+                    var timeBetween = endDateAsTime - startAsDateTime;
+                    var daysBetween = timeBetween / (1000 * 60 * 60 * 24);
+                    var daysCount = daysBetween;
+
+                    $("#RentHeaderDto_TotalCost").attr('value', daysCount * parseFloat($("#CarDto_DayRentalPrice").val()));
+                    $("#RentHeaderDto_TotalCost").change();
+                    $("#RentHeaderDto_StartDate").attr('value', startDate);
+                    $("#RentHeaderDto_EndDate").attr('value', endDate);
+                    
+                }
+            });
+        });
+    </script>
+}
+
+

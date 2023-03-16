@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RentalCompany.Infrastructure.Data;
+﻿using RentalCompany.Infrastructure.Data;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
 
 namespace RentalCompany.Infrastructure.Repositories;

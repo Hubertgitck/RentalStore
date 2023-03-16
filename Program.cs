@@ -11,6 +11,7 @@ using RentalCompany.Application.Interfaces;
 using RentalCompany.Application.Services;
 using RentalCompany.Application.Middleware;
 using AutoMapper;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,9 @@ builder.Services.AddScoped<IShopService, ShopService>();
 
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 
+CultureInfo culture = new("en-US");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 var app = builder.Build();
 

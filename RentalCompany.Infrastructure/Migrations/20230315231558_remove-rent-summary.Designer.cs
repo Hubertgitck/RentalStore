@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentalCompany.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using RentalCompany.Infrastructure.Data;
 namespace RentalCompany.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230315231558_remove-rent-summary")]
+    partial class removerentsummary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -359,10 +361,6 @@ namespace RentalCompany.Infrastructure.Migrations
 
                     b.Property<int>("PickupRentalStoreId")
                         .HasColumnType("int");
-
-                    b.Property<string>("RentPaymentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RentStatus")
                         .IsRequired()

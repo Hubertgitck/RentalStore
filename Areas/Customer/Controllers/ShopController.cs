@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
 
 namespace RentalCompany.Areas.Customer.Controllers;
@@ -21,4 +22,17 @@ public class ShopController : Controller
     {
         return View(await _shopService.GetStockByRentalStoreId(id));
     }
+
+    public async Task<IActionResult> Book(int carId, [FromQuery(Name = "storeId")] int storeId)
+    {
+        return View(await _shopService.GetBookViewByCarIdAndStoreId(carId, storeId));
+    }
+
+    public async Task<IActionResult> BookSummary(BookViewDto bookViewDto)
+    {
+        var rentHeaderId = await _shopService.AddOrderHeader(bookViewDto, User);
+        return RedirectToAction("GetSumamry", new { id = rentHeaderId });
+    }
+
+
 }

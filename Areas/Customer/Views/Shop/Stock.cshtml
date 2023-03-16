@@ -30,12 +30,13 @@
                                 </div>
                                 <div>
                                     <p class="card-text">
-                                        Price for one day: <b>$@car.DayRentalPrice.ToString("0.00")</b>
+                                        Price for one day: <b>@car.DayRentalPrice.ToString("c")</b>
                                     </p>
                                 </div>
                             </div>
                             <div class="col-6 mx-auto pb-1">
-                                <a asp-action="Details" class="btn btn-primary form-control" asp-route-id="@car.Id">
+                                <a asp-action="Book" class="btn btn-primary form-control" asp-route-carId="@car.Id"
+                                asp-route-storeId="@Model.RentalStoreId">
                                     Book
                                 </a>
                             </div>

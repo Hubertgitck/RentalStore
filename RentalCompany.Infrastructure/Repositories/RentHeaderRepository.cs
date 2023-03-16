@@ -10,4 +10,13 @@ public class RentHeaderRepository : Repository<RentHeader>, IRentHeaderRepositor
     {
         _dbContext = dbContext;
     }
+
+    public void UpdatePaymentID(int id, string sessionId, string paymentIntendId)
+    {
+        var rentHeaderFromDb = _dbContext.RentHeaders.FirstOrDefault(u => u.Id == id);
+
+        rentHeaderFromDb.SessionId = sessionId;
+        rentHeaderFromDb.PaymentIntendId = paymentIntendId;
+        rentHeaderFromDb.PaymentDate = DateTime.Now;
+    }
 }

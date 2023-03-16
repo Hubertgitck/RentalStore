@@ -10,8 +10,12 @@ using RentalCompany.Application.EmailSender;
 using RentalCompany.Application.Interfaces;
 using RentalCompany.Application.Services;
 using RentalCompany.Application.Middleware;
-using AutoMapper;
 using System.Globalization;
+using RentalCompany.Application.Payments.ServicesSettings;
+using RentalCompany.Application.Payments.Interfaces;
+using RentalCompany.Application.Payments.Services;
+using RentalCompany.Application.Payments;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +26,10 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+builder.Services.AddScoped<IPaymentService, StripePaymentService>();
+builder.Services.AddScoped<IPaymentStrategy, PaymentStrategy>();
 
 builder.Services.AddSession(options =>
 {
@@ -63,6 +71,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
 SeedDatabase();
 app.UseAuthentication();

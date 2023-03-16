@@ -37,4 +37,6 @@ public class ShopController : Controller
     {
         return View(await _shopService.GetRentHeaderById(id));
     }
+
+
 }

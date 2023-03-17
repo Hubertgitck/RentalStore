@@ -2,7 +2,7 @@ $(document).ready(function () {
     var notAvailable = ["2023-03-19", "2023-03-15", "2023-03-15", "2023-03-21"];
     var startDate = null;
     var endDate = null;
-    var totalCost = 0;
+    var clicksCount = 0;
     var startAsDateTime = 0;
     var endDateAsTime = 0;
     var oneDayAsTime = 1000 * 3600 * 24;
@@ -24,15 +24,28 @@ $(document).ready(function () {
             return [true, ''];
         },
         onSelect: function (date) {
-            if (startDate === null) {
+            if (startDate === null && endDate === null) {
                 startDate = date;
                 endDate = date;
-            } else if (date <= startDate) {
-                startDate = date;
-            } else if (date >= startDate && date <= endDate) {
-                startDate = date;
-            } else if (date >= startDate && date >= endDate) {
-                endDate = date;
+            }
+            if (clicksCount % 2 == 0) {
+                if (date >= startDate && date < endDate) {
+                    endDate = date;
+                } else if (date <= endDate) {
+                    startDate = date;
+                }
+                else {
+                    endDate = date;
+                }
+            } else {
+                if (date <= startDate) {
+                    endDate = startDate;
+                    startDate = date;
+                } else if (date >= startDate && date <= endDate) {
+                    startDate = date;
+                } else {
+                    endDate = date;
+                }
             }
             startAsDateTime = new Date(startDate).getTime() - oneDayAsTime;
             endDateAsTime = new Date(endDate).getTime();
@@ -46,6 +59,7 @@ $(document).ready(function () {
             $("#RentHeaderDto_StartDate").attr('value', startDate);
             $("#RentHeaderDto_EndDate").attr('value', endDate);
 
+            clicksCount += 1;
         }
     });
 });

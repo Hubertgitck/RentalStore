@@ -14,4 +14,6 @@ public static class Constants
     public const string StatusApproved = "Approved";
     public const string StatusCancelled = "Cancelled";
     public const string StatusRefunded = "Refunded";
+
+    public const string PaymentCurrency = "eur";
 }

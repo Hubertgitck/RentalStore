@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Globalization;
+using Microsoft.Extensions.Options;
 using RentalCompany.Application.Payments.Models;
 using RentalCompany.Application.Payments.ServicesSettings;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
+using RentalCompany.Utility;
 using Stripe;
 using Stripe.Checkout;
 
@@ -72,11 +74,11 @@ public class StripePaymentService : PaymentService<StripeModel>
             PriceData = new SessionLineItemPriceDataOptions
             {
                 UnitAmount = (long)(model.TotalCost! * 100),
-                Currency = "usd",
+                Currency = Constants.PaymentCurrency,
                 ProductData = new SessionLineItemPriceDataProductDataOptions
                 {
                     Name = model.CarName,
-                    Description = $"Pickup: {model.StartDate} + Return: {model.EndDate}"
+                    Description = $"Pickup: {model.StartDate} ; Return: {model.EndDate}"
                 },
             },
             Quantity = 1,

@@ -8,4 +8,9 @@ public static class TempDataHelper
     {
         controller.TempData["success"] = message;
     }
+
+    public static void SetError(Controller controller, string message)
+    {
+        controller.TempData["error"] = message;
+    }
 }

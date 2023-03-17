@@ -8,8 +8,8 @@ public class StripeModel : IPaymentModel
     public string? PaymentIntentId { get; set; }
     public string? SessionId { get; set; }
     public string? PaymentStatus { get; set; }
-    public double? TotalCost { get; set; }
-    public string? CarName { get; set; }
+    public double TotalCost { get; set; }
+    public string CarName { get; set; }
     public string StartDate { get; set; }
     public string EndDate { get; set; }
 }   

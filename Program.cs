@@ -38,6 +38,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+CultureInfo culture = new("es-ES");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI();
@@ -53,10 +57,6 @@ builder.Services.AddScoped<IRentalStoreService, RentalStoreService>();
 builder.Services.AddScoped<IShopService, ShopService>();
 
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
-
-CultureInfo culture = new("en-US");
-CultureInfo.DefaultThreadCurrentCulture = culture;
-CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 var app = builder.Build();
 

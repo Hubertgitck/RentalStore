@@ -45,7 +45,7 @@
                             </div>
                             <div class="row col-md-6 col-sm-12 my-3">
                                 <label for="StartDate">Pickup Date</label>
-                                <p id="StartDate" class="bg-light form-control-plaintext">&nbsp @Model.StartDate</p>
+                                <p id="StartDate" class="bg-light form-control-plaintext">&nbsp @Model.StartDate.ToString("dd-MM-yyyy")</p>
                             </div>
                             <div class="row col-md-6 col-sm-12 my-3">
                                 <label for="ReturnRentalStoreName">Return rental store</label>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="row col-md-6 col-sm-12 my-3">
                                 <label for="EndDate">Return Date</label>
-                                <p id="EndDate" class="bg-light form-control-plaintext">&nbsp @Model.EndDate</p>
+                                <p id="EndDate" class="bg-light form-control-plaintext">&nbsp @Model.EndDate.ToString("dd-MM-yyyy")</p>
                             </div>
  
                         </div>
@@ -66,12 +66,12 @@
             <div class="card-footer">
                 <div class="row col-8 mx-auto">
                     <div class="col-12 col-md-6 py-1">
-                        <button class="btn btn-outline-dark form-control " style="height:50px;" asp-action="Book">
+                        <button class="btn btn-outline-dark form-control " style="height:50px;" onclick="history.go(-1);return false;">
                             Back
                         </button>
                     </div>
                     <div class="col-12 col-md-6 py-1">
-                        <button asp-action="Payment" style="height:50px;" class="btn btn-primary form-control">
+                        <button onclick="redirectToNewAction(); return false;" style="height:50px;" class="btn btn-primary form-control">
                             Proceed to payment
                         </button>
                     </div>
@@ -80,3 +80,23 @@
         </div>
     </form>
 </div>
+
+@section Scripts{
+    <script>
+        function redirectToNewAction() {
+            var rentHeaderId = new URLSearchParams(window.location.search).get('rentHeaderId');
+
+            var url = '@Url.Action("Payment", "Shop")' + '?rentHeaderId=' + rentHeaderId;
+            console.log(url);
+            console.log(url);
+            console.log(url);
+            console.log(url);
+            console.log(url);
+            console.log(url);
+            console.log(url);
+            console.log(url);
+            console.log(url);
+            window.location.href = url;
+        }
+    </script>
+}

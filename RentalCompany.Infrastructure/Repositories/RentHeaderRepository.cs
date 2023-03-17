@@ -15,8 +15,24 @@ public class RentHeaderRepository : Repository<RentHeader>, IRentHeaderRepositor
     {
         var rentHeaderFromDb = _dbContext.RentHeaders.FirstOrDefault(u => u.Id == id);
 
-        rentHeaderFromDb.SessionId = sessionId;
-        rentHeaderFromDb.PaymentIntendId = paymentIntendId;
-        rentHeaderFromDb.PaymentDate = DateTime.Now;
+        if (rentHeaderFromDb != null)
+        {
+            rentHeaderFromDb.SessionId = sessionId;
+            rentHeaderFromDb.PaymentIntendId = paymentIntendId;
+            rentHeaderFromDb.PaymentDate = DateTime.Now;
+        }
+    }
+
+    public void UpdateStatus(int id, string orderStatus, string? paymentStatus = null)
+    {
+        var rentHeaderFromDb = _dbContext.RentHeaders.FirstOrDefault(u => u.Id == id);
+        if (rentHeaderFromDb != null)
+        {
+            rentHeaderFromDb.RentStatus = orderStatus;
+            if (paymentStatus != null)
+            {
+                rentHeaderFromDb.RentPaymentStatus = paymentStatus;
+            }
+        }
     }
 }

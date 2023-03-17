@@ -1,9 +1,13 @@
-﻿using System.Security.Claims;
+﻿using System.Globalization;
+using System.Security.Claims;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Org.BouncyCastle.Asn1.Ocsp;
 using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
+using RentalCompany.Application.Payments.Interfaces;
+using RentalCompany.Application.Payments.Models;
 using RentalCompany.Infrastructure.Models;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
 using RentalCompany.Utility;
@@ -14,12 +18,17 @@ public class ShopService : IShopService
 {
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly IMapper _mapper;
+    private readonly IPaymentStrategy _paymentStrategy;
+    private readonly IEmailSender _emailSender;
 
-	public ShopService(IUnitOfWork unitOfWork, IMapper mapper)
+    public ShopService(IUnitOfWork unitOfWork, IMapper mapper, IPaymentStrategy paymentStrategy,
+        IEmailSender emailSender)
 	{
 		_unitOfWork = unitOfWork;
 		_mapper = mapper;
-	}
+        _paymentStrategy = paymentStrategy;
+        _emailSender = emailSender;
+    }
 
     public async Task<IEnumerable<RentalStoreDto>> GetAllStores()
     {
@@ -97,6 +106,57 @@ public class ShopService : IShopService
         var rentHeaderDto = _mapper.Map<RentHeaderDto>(rentHeader);
 
         return await Task.FromResult(rentHeaderDto);
+    }
+
+    public async Task<string> MakePayment(int id, ClaimsPrincipal userClaims)
+    {
+        var rentHeader = _unitOfWork.RentHeader.GetFirstOrDefault(u => u.Id == id, includeProperties:"Car");
+
+        var userId = HelperMethods.GetApplicationUserIdFromClaimsPrincipal(userClaims);
+
+        if (rentHeader != null)
+        {
+            IPaymentModel stripeModel = new StripeModel()
+            {
+                RentHeaderId = rentHeader.Id,
+                StartDate = rentHeader.StartDate.ToString("d", CultureInfo.CurrentCulture.DateTimeFormat),
+                EndDate = rentHeader.EndDate.ToString("d", CultureInfo.CurrentCulture.DateTimeFormat),
+                TotalCost = rentHeader.TotalCost,
+                CarName = rentHeader.Car.Name
+                
+            };
+
+            var redirectUrl = _paymentStrategy.MakePayment(stripeModel);
+
+            return await Task.FromResult(redirectUrl);
+        }
+        else
+        {
+            return await Task.FromResult("");
+        }
+    }
+
+    public async Task OrderConfirmation(int id)
+    {
+        RentHeader rentHeader = _unitOfWork.RentHeader
+            .GetFirstOrDefault(u => u.Id == id, includeProperties: "ApplicationUser");
+
+        var paymentStatus = _paymentStrategy.GetPaymentStatus(new StripeModel
+        {
+            SessionId = rentHeader.SessionId
+        });
+
+        if (paymentStatus == "paid")
+        {
+            _unitOfWork.RentHeader.UpdatePaymentID(id, rentHeader.SessionId, rentHeader.PaymentIntendId);
+            _unitOfWork.RentHeader.UpdateStatus(id, Constants.StatusApproved, Constants.PaymentStatusApproved);
+        }
+
+        await _emailSender.SendEmailAsync(rentHeader.ApplicationUser.Email, "New Rent - Rental Store", "<p>New Tesla booked!</p>");
+
+        _unitOfWork.Save();
+
+        return ;
     }
 }
 

@@ -10,4 +10,6 @@ public interface IShopService
     Task<BookViewDto> GetBookViewByCarIdAndStoreId(int id, int storeId);
     Task<int> AddOrderHeader(BookViewDto bookViewDto, ClaimsPrincipal userClaims);
     Task<RentHeaderDto> GetRentHeaderById(int id);
+    Task<string> MakePayment(int id, ClaimsPrincipal userClaims);
+    Task OrderConfirmation(int id);
 }

@@ -14,6 +14,7 @@ public class RentHeaderDto
     public CarDto CarDto { get; set; }
 
     [Required]
+    [Range(1, int.MaxValue, ErrorMessage = "Please book something first!")]
     public double TotalCost { get; set; }
     [Required]
     public string RentStatus { get; set; }

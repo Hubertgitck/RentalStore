@@ -44,6 +44,7 @@
                             <div class="row mt-2">
                                 <label class="col-auto" asp-for="RentHeaderDto.TotalCost">Total price:</label>
                                 <input class="col-3" asp-for="RentHeaderDto.TotalCost" type="number" class="form-control" readonly="true" />
+                                <span asp-validation-for="RentHeaderDto.TotalCost" class="text-danger"></span>
                             </div>
                             <div class="row col-6 my-3 disabled">
                                 <div class="ms-1">
@@ -71,7 +72,7 @@
             <div class="card-footer">
                 <div class="row col-8 mx-auto">
                     <div class="col-12 col-md-6 py-1">
-                        <button class="btn btn-outline-dark form-control " style="height:50px;" asp-action="Index">
+                        <button class="btn btn-outline-dark form-control" style="height:50px;" asp-action="Index" formnovalidate>
                             Back to List
                         </button>
                     </div>

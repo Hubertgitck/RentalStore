@@ -12,4 +12,5 @@ public interface IShopService
     Task<RentHeaderDto> GetRentHeaderById(int id);
     Task<string> MakePayment(int id, ClaimsPrincipal userClaims);
     Task OrderConfirmation(int id);
+    Task<IEnumerable<string>> GetCarAvalabilityByIdAndStore(int carId, int storeId);
 }

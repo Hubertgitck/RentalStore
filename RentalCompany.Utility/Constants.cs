@@ -16,4 +16,9 @@ public static class Constants
     public const string StatusRefunded = "Refunded";
 
     public const string PaymentCurrency = "eur";
+
+    public const int MonthsToCheckInAdvance = 3;
+
+    public const string DotNetDateOriginalFormat = "d/M/yyyy";
+	public const string DatepickerDateFormat = "yyyy-MM-dd";
 }

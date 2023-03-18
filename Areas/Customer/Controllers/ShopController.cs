@@ -67,4 +67,13 @@ public class ShopController : Controller
 
         return View(id);
     }
+
+	#region API CALLS
+	[HttpGet]
+	public async Task<IActionResult> GetCarAvailability(int carId, int storeId)
+	{
+		var result = await _shopService.GetCarAvalabilityByIdAndStore(carId, storeId);
+		return Json(new { data = result });
+	}
+	#endregion
 }

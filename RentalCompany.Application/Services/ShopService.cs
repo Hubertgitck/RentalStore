@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Security.Claims;
 using AutoMapper;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -11,6 +12,7 @@ using RentalCompany.Application.Payments.Models;
 using RentalCompany.Infrastructure.Models;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
 using RentalCompany.Utility;
+using Stripe;
 
 namespace RentalCompany.Application.Services;
 
@@ -158,5 +160,53 @@ public class ShopService : IShopService
 
         return ;
     }
+
+	public async Task<IEnumerable<string>> GetCarAvalabilityByIdAndStore(int carId, int storeId) 
+    {
+		var unavailableList = new List<string>();
+		var bookingsByDate = new Dictionary<DateTime, int>();
+
+		var startingDate = DateTime.Now;
+        var endingDate = DateTime.Now.AddMonths(Constants.MonthsToCheckInAdvance);
+
+        var rentHeaders = _unitOfWork.RentHeader.GetAll(u => u.PickupRentalStoreId == storeId && u.CarId == carId);
+        var carAvailability = _unitOfWork.AvailableCar.GetFirstOrDefault(u => u.RentalStoreId == storeId && u.CarId == carId);
+
+        if (rentHeaders != null)
+        {
+			foreach (var rentHeader in rentHeaders)
+			{
+				var currentDate = rentHeader.StartDate;
+
+				while (currentDate <= rentHeader.EndDate)
+				{
+					if (bookingsByDate.ContainsKey(currentDate))
+					{
+						bookingsByDate[currentDate]++;
+					}
+					else
+					{
+						bookingsByDate[currentDate] = 1;
+					}
+					currentDate = currentDate.AddDays(1);
+				}
+			}
+
+			for (var date = startingDate.Date; date <= endingDate; date = date.AddDays(1))
+			{
+				if (bookingsByDate.ContainsKey(date) && bookingsByDate[date] >= carAvailability.CarsCount)
+				{
+					unavailableList.Add(date.ToShortDateString());
+				}
+			}
+		}
+		return await Task.FromResult(unavailableList);
+    }
+	private string FormatDateForDatepicker(DateTime date)
+	{
+		return DateTime.ParseExact(date.ToShortDateString(), 
+            Constants.DotNetDateOriginalFormat, CultureInfo.InvariantCulture)
+            .ToString(Constants.DatepickerDateFormat);
+	}
 }
 

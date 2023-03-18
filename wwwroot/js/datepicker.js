@@ -25,7 +25,8 @@ $(document).ready(function () {
     var endDate = null;
     var today = new Date();
     var maxDate = new Date();
-    maxDate.setMonth(today.getMonth() + 3);
+    var numberOfMonthsAvailableInAdvance = 3;
+    maxDate.setMonth(today.getMonth() + numberOfMonthsAvailableInAdvance);
     var clicksCount = 0;
     var startAsDateTime = 0;
     var endDateAsTime = 0;
@@ -77,10 +78,10 @@ $(document).ready(function () {
                         endDate = date;
                     }
                 }
-                startAsDateTime = new Date(startDate).getTime() - oneDayAsTime;
+                startDateAsTime = new Date(startDate).getTime() - oneDayAsTime; //have to decrement days by one, to highlight current day as picked aswell
                 endDateAsTime = new Date(endDate).getTime();
 
-                var timeBetween = endDateAsTime - startAsDateTime;
+                var timeBetween = endDateAsTime - startDateAsTime;
                 var daysBetween = timeBetween / (1000 * 60 * 60 * 24);
                 var daysCount = daysBetween;
 

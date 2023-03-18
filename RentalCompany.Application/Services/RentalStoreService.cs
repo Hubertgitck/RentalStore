@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
 using RentalCompany.Application.Middleware.CustomExceptions;
@@ -105,26 +106,42 @@ public class RentalStoreService : IRentalStoreService
 
     public Task AddAvailableCars(RentalStoreSelectDto rentalStoreSelectDto)
     {
-        var rentalStoreFromDb = _unitOfWork.RentalStore.GetFirstOrDefault(u => u.Id == rentalStoreSelectDto.RentalStoreDto.Id);
+        var rentalStoreId = rentalStoreSelectDto.RentalStoreDto.Id;
+        var rentalStoreFromDb = _unitOfWork.RentalStore
+            .GetFirstOrDefault(u => u.Id == rentalStoreId, includeProperties: "AvailableCars");
 
-        if (rentalStoreFromDb.AvailableCars == null)
+        if (rentalStoreSelectDto.NumberOfAvailableCars == null)
+        {
+            rentalStoreFromDb.AvailableCars.Clear();
+            _unitOfWork.Save();
+            return Task.CompletedTask;
+        }
+
+        if (rentalStoreFromDb.AvailableCars.Count == 0)
         {
             rentalStoreFromDb.AvailableCars = new List<AvailableCar>();
         }
 
         foreach (KeyValuePair<int, int> entry in rentalStoreSelectDto.NumberOfAvailableCars)
         {
-            var car = new AvailableCar()
+            var carAlreadyAvailable = rentalStoreFromDb.AvailableCars.FirstOrDefault(u => u.CarId == entry.Key && u.RentalStoreId == rentalStoreId);
+            if (carAlreadyAvailable == null)
             {
-                CarId = entry.Key,
-                CarsCount = entry.Value,
-                RentalStoreId = rentalStoreSelectDto.RentalStoreDto.Id
-            };
-            rentalStoreFromDb.AvailableCars.Add(car);
+                var car = new AvailableCar()
+                {
+                    CarId = entry.Key,
+                    CarsCount = entry.Value,
+                    RentalStoreId = rentalStoreId
+                };
+                rentalStoreFromDb.AvailableCars.Add(car);
+            } 
+            else
+            {
+                carAlreadyAvailable.CarsCount = entry.Value;
+            }       
         }
-
         _unitOfWork.Save();
-
+        
         return Task.CompletedTask;
     }
 }

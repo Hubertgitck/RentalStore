@@ -18,11 +18,28 @@
                 </div>
                 @for (int i = 0; i < Model.CarsList.Count; i++)
                 {
-                    <div>
-                        <input type="checkbox" id="@Model.CarsList.ElementAt(i).Id" name="selectedCars" value="@Model.CarsList.ElementAt(i).Id" class="car-checkbox" />
-                        <label for="@Model.CarsList.ElementAt(i).Id">@Model.CarsList.ElementAt(i).Name, Price: @Model.CarsList.ElementAt(i).DayRentalPrice.ToString("c")</label>
-                        <br />
-                    </div>
+                    var car = Model.CarsList.ElementAt(i);
+                    int carId = car.Id;
+                    if (Model.NumberOfAvailableCars.ContainsKey(carId))
+                    {
+                        int defaultNumberOfAvailableCars = Model.NumberOfAvailableCars[carId];
+                        <div class="pt-4">
+                            <input type="checkbox" id="@carId" name="selectedCars" value="@carId" class="car-checkbox" checked>
+                            <label for="@carId">@car.Name, Price: @car.DayRentalPrice.ToString("c")</label>
+                            <br>
+                            <div class="col-2 pt-2">
+                                <input type="number" min="1" step="1" name="numberOfAvailableCars[@carId]" class="form-control" id="numberOfAvailableCars_@carId" value="@defaultNumberOfAvailableCars">
+                            </div>
+                            <hr />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class ="pt-4">
+                            <input type="checkbox" id="@carId" name="selectedCars" value="@carId" class="car-checkbox">
+                            <label for="@carId">@car.Name, Price: @car.DayRentalPrice.ToString("c")</label>
+                        </div>
+                    }
                 }
                 <input type="hidden" id="selectedCarIds" name="selectedCarIds" value="" />
 
@@ -42,6 +59,65 @@
 
     <script>
         $(function () {
+    $('.car-checkbox').click(function () {
+        var carId = $(this).attr('id');
+        var input = $(this).parent().find('#numberOfAvailableCars_' + carId);
+
+        if ($(this).is(':checked')) {
+            if (input.length == 0) {
+                        input = $('<div class="col-2 pt-2"><input type="number" min="1" step="1" name="numberOfAvailableCars[' + carId + ']" class="form-control" id="numberOfAvailableCars_' + carId + '" value="1" /></div><hr />');
+                $(this).parent().append(input);
+            }
+            input.prop('disabled', false);
+        } else {
+            input.parent().next('hr').remove();
+            input.parent().remove();
+        }
+    });
+});
+        /*
+        $(function () {
+            $('.car-checkbox').each(function () {
+                var carId = $(this).attr('id');
+                var isChecked = $(this).is(':checked');
+                var input = $(this).parent().find('#numberOfAvailableCars_' + carId);
+                var value = isChecked && Model.SelectedCars.ContainsKey(carId) ? Model.SelectedCars[carId] : 1;
+
+                if (isChecked && input.length == 0) {
+                    input = $('<label for="numberOfAvailableCars_' + carId + '">Number of Available Cars:</label><div class="col-2"><input type="number" min="1" step="1" name="numberOfAvailableCars[' + carId + ']" class="form-control" id="numberOfAvailableCars_' + carId + '" value="' + value + '" /></div>');
+                    $(this).parent().append(input);
+                }
+            });
+
+            $('.car-checkbox').click(function () {
+                var carId = $(this).attr('id');
+                var input = $(this).parent().find('#numberOfAvailableCars_' + carId);
+
+                if ($(this).is(':checked')) {
+                    if (input.length == 0) {
+                        var value = Model.SelectedCars.ContainsKey(carId) ? Model.SelectedCars[carId] : 1;
+                        input = $('<label for="numberOfAvailableCars_' + carId + '">Number of Available Cars:</label><div class="col-2"><input type="number" min="1" step="1" name="numberOfAvailableCars[' + carId + ']" class="form-control" id="numberOfAvailableCars_' + carId + '" value="' + value + '" /></div>');
+                        $(this).parent().append(input);
+                    }
+                } else {
+                    $('label[for="numberOfAvailableCars_' + carId + '"]').remove();
+                    input.parent().remove();
+                }
+            });
+        });
+        
+        $(function () {
+            $('.car-checkbox').each(function () {
+                var carId = $(this).attr('id');
+                var isChecked = $(this).is(':checked');
+                var input = $(this).parent().find('#numberOfAvailableCars_' + carId);
+
+                if (isChecked && input.length == 0) {
+                    input = $('<label for="numberOfAvailableCars_' + carId + '">Number of Available Cars:</label><div class="col-2"><input type="number" min="1" step="1" name="numberOfAvailableCars[' + carId + ']" class="form-control" id="numberOfAvailableCars_' + carId + '" /></div>');
+                    $(this).parent().append(input);
+                }
+            });
+
             $('.car-checkbox').click(function () {
                 var carId = $(this).attr('id');
                 var input = $(this).parent().find('#numberOfAvailableCars_' + carId);
@@ -56,6 +132,6 @@
                     input.parent().remove();
                 }
             });
-        });
+        });*/
     </script>
 }

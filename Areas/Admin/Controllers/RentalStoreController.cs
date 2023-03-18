@@ -75,7 +75,7 @@ public class RentalStoreController : Controller
 
     public async Task<IActionResult> SelectCars(int? id)
     {
-
+        var res = await _rentalStoreService.GetSelectCarsView(id);
         return View(await _rentalStoreService.GetSelectCarsView(id));
     }
 

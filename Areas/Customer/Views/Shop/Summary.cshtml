@@ -7,7 +7,6 @@
 
 <div class="container-fluid">
     <form method="post">
-        <input hidden asp-for="CarDto.Id" />
         <div class="card border-0 container pt-4">
             <div class="card-header rounded bg-primary text-light row ">
                 <div class="col-12 col-md-6">
@@ -33,11 +32,10 @@
                             <div class="row col-md-6 col-sm-12 justify-content-center text-center">
                                 <label class="col-auto" asp-for="TotalCost">Total price:</label>
                                 <h4 class=" text-success col-lg-8 col-sm-10">@Model.TotalCost.ToString("c")</h4>
-                                <input asp-for="TotalCost" hidden="true" />
                             </div>
                             <div class="row col-md-6 col-sm-12 my-3">
                                 <label for="Name">Name</label>
-                                <p id="Name" class="bg-light form-control-plaintext">&nbsp @Model.PickupRentalStore.Name</p>
+                                <p id="Name" class="bg-light form-control-plaintext">&nbsp @Model.ApplicationUserDto.Name</p>
                             </div>
                             <div class="row col-md-6 col-sm-12 my-3">
                                 <label for="PickupRentalStoreName">Pickup rental store</label>
@@ -66,7 +64,8 @@
             <div class="card-footer">
                 <div class="row col-8 mx-auto">
                     <div class="col-12 col-md-6 py-1">
-                        <button class="btn btn-outline-dark form-control " style="height:50px;" onclick="history.go(-1);return false;">
+                        <button class="btn btn-outline-dark form-control " style="height:50px;" asp-action="Book" asp-route-carId="@Model.CarId"
+                                asp-route-storeId="@Model.PickupRentalStoreId">
                             Back
                         </button>
                     </div>

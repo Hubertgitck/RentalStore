@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RentalCompany.Infrastructure.Models;
 
 namespace RentalCompany.Application.Dto;
 

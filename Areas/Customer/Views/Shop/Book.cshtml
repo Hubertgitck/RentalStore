@@ -43,7 +43,7 @@
                             </div>
                             <div class="row mt-2">
                                 <label class="col-auto" asp-for="RentHeaderDto.TotalCost">Total price:</label>
-                                <input class="col-3" asp-for="RentHeaderDto.TotalCost" type="number" class="form-control" readonly="true" />
+                                <input class="col-4" asp-for="RentHeaderDto.TotalCost" type="number" class="form-control" readonly="true" />
                                 <span asp-validation-for="RentHeaderDto.TotalCost" class="text-danger"></span>
                             </div>
                             <div class="row col-6 my-3 disabled">
@@ -78,7 +78,7 @@
                     </div>
                     <div class="col-12 col-md-6 py-1">
                         <button asp-action="BookSummary" style="height:50px;" class="btn btn-primary form-control">
-                            Summary
+                            Book!
                         </button>
                     </div>
                 </div>

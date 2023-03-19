@@ -28,10 +28,9 @@ $(document).ready(function () {
     var numberOfMonthsAvailableInAdvance = 3;
     maxDate.setMonth(today.getMonth() + numberOfMonthsAvailableInAdvance);
     var clicksCount = 0;
-    var startAsDateTime = 0;
+    var startDateAsTime = 0;
     var endDateAsTime = 0;
     var oneDayAsTime = 1000 * 3600 * 24;
-
 
     $.get(endpointUrl, function (data) {
         notAvailable = JSON.parse(JSON.stringify(data.data));
@@ -48,7 +47,7 @@ $(document).ready(function () {
                 }
                 if ((startDate != null) && (endDate != null) && (startDate != endDate)) {
                     var currentDateAsTime = new Date(date).getTime();
-                    if ((currentDateAsTime >= startAsDateTime) && (currentDateAsTime <= endDateAsTime)) {
+                    if ((currentDateAsTime >= startDateAsTime) && (currentDateAsTime <= endDateAsTime)) {
                         return [true, 'highlight'];
                     }
                 }
@@ -78,9 +77,36 @@ $(document).ready(function () {
                         endDate = date;
                     }
                 }
-                startDateAsTime = new Date(startDate).getTime() - oneDayAsTime; //have to decrement days by one, to highlight current day as picked aswell
+                startDateAsTime = new Date(startDate).getTime(); //have to decrement days by one, to highlight current day as picked aswell
                 endDateAsTime = new Date(endDate).getTime();
 
+                var rangeHasNotAvailableDates = false;
+                if ((startDate != null) && (endDate != null)) {
+                    for (var date = startDateAsTime; date <= endDateAsTime; date += oneDayAsTime) {
+                        var fullDate = jQuery.datepicker.formatDate('yy-mm-dd', new Date(date));
+                        if (notAvailable.indexOf(fullDate) != -1) {
+                            rangeHasNotAvailableDates = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (rangeHasNotAvailableDates) {
+                    endDateAsTime = 0;
+                    startDateAsTime = 0;
+                    startDate = null;
+                    endDate = null;
+                    $(this).datepicker('setDate', null);
+                    rangeHasNotAvailableDates = false;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'The selected range included not available days. Please select different range.',
+                    });
+                    return;
+                }
+
+                startDateAsTime -= oneDayAsTime; //have to decrement days by one, to higlight first day aswell
                 var timeBetween = endDateAsTime - startDateAsTime;
                 var daysBetween = timeBetween / (1000 * 60 * 60 * 24);
                 var daysCount = daysBetween;

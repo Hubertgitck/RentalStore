@@ -38,7 +38,7 @@
 								<div class="dropdown-menu">
 									<a class="dropdown-item" asp-area="Admin" asp-controller="RentalStore" asp-action="Index">Rental Stores</a>
 									<a class="dropdown-item" asp-area="Admin" asp-controller="Car"  asp-action="Index">Tesla Cars</a>
-									<a class="dropdown-item" asp-action="Index">Manage Rents</a>
+									<a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Rents</a>
 									@if (User.IsInRole(Constants.RoleAdmin))
 									{
 										<div class="dropdown-divider"></div>

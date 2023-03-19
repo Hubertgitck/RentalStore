@@ -1,0 +1,81 @@
+﻿@section HeaderScripts{
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+}
+@{
+    var status = Context.Request.Query["status"];
+    var pending = "text-primary";
+    var approved = "text-primary";
+    var cancelled = "text-primary";
+    var refunded = "text-primary";
+    var all = "text-primary";
+
+    switch (status)
+    {
+        case "pending":
+            pending = "active text-white";
+            break;
+        case "approved":
+            approved = "active text-white";
+            break;
+        case "cancelled":
+            cancelled = "active text-white";
+            break;
+        case "refunded":
+            refunded = "active text-white";
+            break;
+        default:
+            all = "active text-white";
+            break;
+    }
+}
+<div class="p-3">
+    <div class="d-flex  col-11 mx-auto justify-content-between py-4">
+        <div class="p-2">
+            <h2 class="text-primary">Order List</h2>
+        </div>
+        <div class="p-2">
+            <ul class="list-group list-group-horizontal-sm">
+                <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="pending">
+                <li class="list-group-item @pending">Payment Pending</li>
+                </a>
+                <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="approved">
+                <li class="list-group-item @approved">Approved</li>
+                </a>
+                <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="cancelled">
+                <li class="list-group-item @cancelled">Cancelled</li>
+                </a>                
+                <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="refunded">
+                <li class="list-group-item @refunded">Refunded</li>
+                </a>
+                <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="all">
+                <li class="list-group-item @all">All</li>
+                </a>
+            </ul>
+        </div>
+    </div>
+
+    <div class="table-responsive col-11 mx-auto">
+        <table id="tblData" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Model</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total [€]</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script asp-append-version="true" src="~/js/order.js"></script>
+}

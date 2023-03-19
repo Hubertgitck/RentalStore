@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using RentalCompany.Infrastructure.Models;
 
 namespace RentalCompany.Application.Dto;
 public class RentHeaderDto
 {
-    public string ApplicationUserId { get; set; }
-    [Required]
+    public int Id { get; set; }
+    //public string ApplicationUserId { get; set; }
     [ValidateNever]
-    public virtual ApplicationUser ApplicationUser { get; set; }
+    public ApplicationUserDto ApplicationUserDto { get; set; }
     [Required]
     public int CarId { get; set; }
     public CarDto CarDto { get; set; }
@@ -18,7 +17,13 @@ public class RentHeaderDto
     public double TotalCost { get; set; }
     [Required]
     public string RentStatus { get; set; }
-    [Required]
+    public string RentPaymentStatus { get; set; }
+    public string? SessionId { get; set; }
+    public string? PaymentIntendId { get; set; }
+	public DateTime PaymentDate { get; set; }
+
+
+	[Required]
     public DateTime StartDate { get; set; }
     [Required]
     public DateTime EndDate { get; set; }

@@ -125,7 +125,6 @@ public class ShopService : IShopService
                 EndDate = rentHeader.EndDate.ToString("d", CultureInfo.CurrentCulture.DateTimeFormat),
                 TotalCost = rentHeader.TotalCost,
                 CarName = rentHeader.Car.Name
-                
             };
 
             var redirectUrl = _paymentStrategy.MakePayment(stripeModel);
@@ -196,7 +195,7 @@ public class ShopService : IShopService
 			{
 				if (bookingsByDate.ContainsKey(date) && bookingsByDate[date] >= carAvailability.CarsCount)
 				{
-					unavailableList.Add(date.ToShortDateString());
+					unavailableList.Add(FormatDateForDatepicker(date));
 				}
 			}
 		}

@@ -16,7 +16,10 @@ public class MappingProfile : Profile
         CreateMap<ContactDataDto, ContactData>();
 
         CreateMap<RentHeader, RentHeaderDto>()
-            .ForMember(dest => dest.CarDto, opt => opt.MapFrom(src => src.Car));
+            .ForMember(dest => dest.CarDto, opt => opt.MapFrom(src => src.Car))
+            .ForMember(dest => dest.ApplicationUserDto, opt => opt.MapFrom(src => src.ApplicationUser))
+            .IgnoreAllPropertiesWithAnInaccessibleSetter();
+            
         CreateMap<RentHeaderDto, RentHeader>();
 
         CreateMap<RentalStore, RentalStoreDto>()
@@ -26,5 +29,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.PickupPlaces, opt => opt.Ignore())
             .ForMember(dest => dest.ReturnPlaces, opt => opt.Ignore());
 
+        CreateMap<ApplicationUser, ApplicationUserDto>();
     }
 }

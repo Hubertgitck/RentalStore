@@ -30,8 +30,6 @@ public class RentHeader
     public DateTime PaymentDate { get; set; }
     public string? SessionId { get; set; }
     public string? PaymentIntendId { get; set; }
-
-
     public int PickupRentalStoreId { get; set; }
     public int ReturnRentalStoreId { get; set; }
 

@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 
 namespace RentalCompany.Utility;
-
 public static class HelperMethods
 {
     public static string GetApplicationUserIdFromClaimsPrincipal(ClaimsPrincipal claimsPrincipal) 

@@ -4,7 +4,6 @@ using RentalCompany.Infrastructure.Repositories.Interfaces;
 using System.Linq.Expressions;
 
 namespace RentalCompany.Infrastructure.Repositories;
-
 public class Repository<T> : IRepository<T> where T : class
 {
     private readonly ApplicationDbContext _dbContext;

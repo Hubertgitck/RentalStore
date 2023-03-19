@@ -6,7 +6,6 @@ namespace RentalCompany.Automapper;
 
 public class MappingProfile : Profile
 {
-    //  <source,destination>
     public MappingProfile()
     {
         CreateMap<Car, CarDto>();

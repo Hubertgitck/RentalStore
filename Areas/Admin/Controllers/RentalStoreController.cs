@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
-using RentalCompany.Application.Services;
 using RentalCompany.Utility;
 
 namespace RentalCompanyWeb.Areas.Admin.Controllers;
@@ -86,6 +85,4 @@ public class RentalStoreController : Controller
         await _rentalStoreService.AddAvailableCars(rentalStoreSelectDto);
         return RedirectToAction("Index");
     }
-
-
 }

@@ -13,5 +13,4 @@ public class RentalStore
     public virtual ICollection<AvailableCar> AvailableCars { get; set; }
     public virtual ICollection<RentHeader> PickupPlaces { get; set; }
     public virtual ICollection<RentHeader> ReturnPlaces { get; set; }
-
 }

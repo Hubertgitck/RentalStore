@@ -24,7 +24,7 @@ public class DbInitializer : IDbInitializer
     }
     public async Task Initialize()
     {
-        if (_dbContext.Database.GetPendingMigrations().Count() > 0)
+        if (_dbContext.Database.GetPendingMigrations().Any())
         {
             _dbContext.Database.Migrate();
         }

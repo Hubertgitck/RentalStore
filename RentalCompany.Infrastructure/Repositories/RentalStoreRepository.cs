@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Update.Internal;
-using RentalCompany.Infrastructure.Data;
+﻿using RentalCompany.Infrastructure.Data;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
 
 namespace RentalCompany.Infrastructure.Repositories;
@@ -16,5 +15,4 @@ public class RentalStoreRepository : Repository<RentalStore>, IRentalStoreReposi
     {
         _dbContext.Update(rentalStore);
     }
-
 }

@@ -109,36 +109,26 @@ public class RentalStoreService : IRentalStoreService
         var rentalStoreId = rentalStoreSelectDto.RentalStoreDto.Id;
         var rentalStoreFromDb = _unitOfWork.RentalStore
             .GetFirstOrDefault(u => u.Id == rentalStoreId, includeProperties: "AvailableCars");
+        
+        rentalStoreFromDb.AvailableCars.Clear();
 
         if (rentalStoreSelectDto.NumberOfAvailableCars == null)
         {
-            rentalStoreFromDb.AvailableCars.Clear();
             _unitOfWork.Save();
             return Task.CompletedTask;
         }
 
-        if (rentalStoreFromDb.AvailableCars.Count == 0)
-        {
-            rentalStoreFromDb.AvailableCars = new List<AvailableCar>();
-        }
+        rentalStoreFromDb.AvailableCars = new List<AvailableCar>();
 
         foreach (KeyValuePair<int, int> entry in rentalStoreSelectDto.NumberOfAvailableCars)
         {
-            var carAlreadyAvailable = rentalStoreFromDb.AvailableCars.FirstOrDefault(u => u.CarId == entry.Key && u.RentalStoreId == rentalStoreId);
-            if (carAlreadyAvailable == null)
+            var car = new AvailableCar()
             {
-                var car = new AvailableCar()
-                {
-                    CarId = entry.Key,
-                    CarsCount = entry.Value,
-                    RentalStoreId = rentalStoreId
-                };
-                rentalStoreFromDb.AvailableCars.Add(car);
-            } 
-            else
-            {
-                carAlreadyAvailable.CarsCount = entry.Value;
-            }       
+                CarId = entry.Key,
+                CarsCount = entry.Value,
+                RentalStoreId = rentalStoreId
+            };
+            rentalStoreFromDb.AvailableCars.Add(car);  
         }
         _unitOfWork.Save();
         

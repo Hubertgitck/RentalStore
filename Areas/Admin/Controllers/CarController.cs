@@ -55,7 +55,7 @@ public class CarController : Controller
         if (ModelState.IsValid)
         {
             await _carService.Edit(carDto, file);
-            TempDataHelper.SetSuccess(this, "Car created succesfully");
+            TempDataHelper.SetSuccess(this, "Car edited succesfully");
             return RedirectToAction("Index");
         }
         return View(carDto);

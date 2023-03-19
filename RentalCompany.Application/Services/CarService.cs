@@ -62,7 +62,10 @@ public class CarService : ICarService
 
 	public Task Edit(CarDto carDto, IFormFile? file)
     {
-		DeleteOldImage(carDto.ImageUrl);
+        if (carDto.ImageUrl != null)
+        {
+            DeleteOldImage(carDto.ImageUrl);
+        }
 		carDto.ImageUrl = SaveImage(file);
 
         var carToEditInDb = _mapper.Map<Car>(carDto);

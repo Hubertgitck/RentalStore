@@ -5,7 +5,7 @@ namespace RentalCompany.Application.Payments.Models;
 public class StripeModel : IPaymentModel
 {
     public int RentHeaderId { get; set; }
-    public string? PaymentIntentId { get; set; }
+    public string? PaymentIntent { get; set; }
     public string? SessionId { get; set; }
     public string? PaymentStatus { get; set; }
     public double TotalCost { get; set; }

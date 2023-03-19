@@ -31,6 +31,8 @@ public class ShopController : Controller
         return View(await _shopService.GetBookViewByCarIdAndStoreId(carId, storeId));
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
 	[Authorize]
 	public async Task<IActionResult> BookSummary(BookViewDto bookViewDto)
     {
@@ -44,7 +46,6 @@ public class ShopController : Controller
         return View(await _shopService.GetRentHeaderById(rentHeaderId));
     }
 
-	[Authorize]
 	public async Task<IActionResult> Payment(int rentHeaderId)
     {
         var result = await _shopService.MakePayment(rentHeaderId, User);
@@ -61,7 +62,8 @@ public class ShopController : Controller
         }
     }
 
-    public async Task<IActionResult> OrderConfirmation(int id)
+	[Authorize]
+	public async Task<IActionResult> OrderConfirmation(int id)
     {
         await _shopService.OrderConfirmation(id);
 

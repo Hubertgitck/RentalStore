@@ -70,7 +70,7 @@
                         </button>
                     </div>
                     <div class="col-12 col-md-6 py-1">
-                        <button onclick="redirectToNewAction(); return false;" style="height:50px;" class="btn btn-primary form-control">
+                        <button onclick="redirectToPayment(); return false;" style="height:50px;" class="btn btn-primary form-control">
                             Proceed to payment
                         </button>
                     </div>
@@ -82,7 +82,7 @@
 
 @section Scripts{
     <script>
-        function redirectToNewAction() {
+        function redirectToPayment() {
             var rentHeaderId = new URLSearchParams(window.location.search).get('rentHeaderId');
 
             var url = '@Url.Action("Payment", "Shop")' + '?rentHeaderId=' + rentHeaderId;

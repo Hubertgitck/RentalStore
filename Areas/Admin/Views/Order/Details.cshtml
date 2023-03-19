@@ -16,7 +16,7 @@
 						Details
 					</div>
 					<div class="col-6 my-auto text-end">
-						<a asp-action="Index" class="btn btn-outline-info form-control w-50 btn-sm">Back to Orders</a>
+						<a asp-action="Index" class="btn btn-outline-primary form-control w-50 btn-sm">Back to Orders</a>
 					</div>
 				</div>
 			</div>
@@ -137,8 +137,7 @@
 							<div class="row my-1">
 								<div class="col-3">Payment Date</div>
 								<div class="col-9">
-									<input value="@Model.PaymentDate.ToShortDateString()"
-										   readonly id="paymentDate" type="text" class="form-control" />
+									<input value="@Model.PaymentDate.ToShortDateString()" readonly id="paymentDate" type="text" class="form-control" />
 								</div>
 							</div>
 							<div class="row my-1">
@@ -170,6 +169,7 @@
 											<div class="col-4 text-end">
 												<p class="text-success">@Model.CarDto.Name</p>
 											</div>
+											<input asp-for="CarDto.Name" hidden />
 										</div>
 									</li>
 									<li class="list-group-item d-flex justify-content-between p-2">
@@ -180,9 +180,10 @@
 											<div class="col-4 text-end">
 												<p class="text-success">@Model.CarDto.DayRentalPrice.ToString("c")</p>
 											</div>
+											<input asp-for="CarDto.DayRentalPrice" hidden />
 										</div>
 									</li>
-										<li class="list-group-item d-flex justify-content-between p-2">
+									<li class="list-group-item d-flex justify-content-between p-2">
 										<div class="row container">
 											<div class="col-8">
 											<h6 class="my-0 text-primary">Start Date:</h6>
@@ -190,6 +191,7 @@
 											<div class="col-4 text-end">
 												<p class="text-success">@Model.StartDate.ToShortDateString()</p>
 											</div>
+										<input asp-for="StartDate" hidden />
 										</div>
 									</li>
 									<li class="list-group-item d-flex justify-content-between p-2">
@@ -200,6 +202,7 @@
 											<div class="col-4 text-end">
 											<p class="text-success">@Model.EndDate.ToShortDateString()</p>
 											</div>
+										<input asp-for="EndDate" hidden />
 										</div>
 									</li>
 									<li class="list-group-item d-flex justify-content-between p-2">
@@ -210,6 +213,7 @@
 											<div class="col-4 text-end">
 											<p class="text-success">@Model.PickupRentalStore.Name</p>
 											</div>
+										<input asp-for="PickupRentalStore.Name" hidden />
 										</div>
 									</li>
 									<li class="list-group-item d-flex justify-content-between p-2">
@@ -220,6 +224,7 @@
 											<div class="col-4 text-end">
 											<p class="text-success">@Model.ReturnRentalStore.Name</p>
 											</div>
+										<input asp-for="ReturnRentalStore.Name" hidden />
 										</div>
 									</li>
 								<li class="list-group-item bg-info">
@@ -233,13 +238,16 @@
 									</div>
 								</li>
 							</ul>
-							@if (User.IsInRole(Constants.RoleAdmin) || User.IsInRole(Constants.RoleEmployee))
+							@if (User.IsInRole(Constants.RoleCustomer) && Model.RentStatus == Constants.StatusPending && 
+									Model.RentPaymentStatus == Constants.PaymentStatusPending || Model.RentPaymentStatus == Constants.PaymentStatusRejected)
 							{
-								@if (Model.RentStatus != Constants.StatusRefunded &&
-										Model.RentStatus != Constants.StatusCancelled)
-								{
-									<input type="submit" asp-action="CancelOrder" class="btn btn-danger form-control my-1" value="Cancel Order" />
-								}
+								<input type="submit" asp-area="Customer" asp-controller="Shop" asp-action="Payment" asp-route-rentHeaderId="@Model.Id"
+								class="btn btn-success form-control my-1" value="Pay" />
+							}
+							@if (Model.RentStatus != Constants.StatusRefunded &&
+									Model.RentStatus != Constants.StatusCancelled)
+							{
+								<input type="submit" asp-action="CancelOrder" class="btn btn-danger form-control my-1" value="Cancel Order" />
 							}
 						</div>
 					</div>

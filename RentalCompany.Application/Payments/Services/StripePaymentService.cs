@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using RentalCompany.Application.Payments.Models;
 using RentalCompany.Application.Payments.ServicesSettings;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
@@ -28,7 +27,7 @@ public class StripePaymentService : PaymentService<StripeModel>
         Session session = service.Create(options);
 
         _unitOfWork.RentHeader.UpdatePaymentID(model.RentHeaderId,
-            session.Id, session.PaymentIntentId);
+            session.Id);
         _unitOfWork.Save();
 
         return session.Url;
@@ -39,7 +38,7 @@ public class StripePaymentService : PaymentService<StripeModel>
         var options = new RefundCreateOptions
         {
             Reason = RefundReasons.RequestedByCustomer,
-            PaymentIntent = model.PaymentIntentId
+            PaymentIntent = model.PaymentIntent
         };
 
         var service = new RefundService();
@@ -52,6 +51,14 @@ public class StripePaymentService : PaymentService<StripeModel>
         Session session = service.Get(model.SessionId);
 
         return session.PaymentStatus.ToLower();
+    }    
+
+    protected override string GetPaymentIntentId(StripeModel model)
+    {
+        var service = new SessionService();
+        Session session = service.Get(model.SessionId);
+
+        return session.PaymentIntentId;
     }
 
     private SessionCreateOptions PrepareStripeOptions(StripeModel model)

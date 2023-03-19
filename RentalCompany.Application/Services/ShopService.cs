@@ -1,10 +1,8 @@
 ﻿using System.Globalization;
 using System.Security.Claims;
 using AutoMapper;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Org.BouncyCastle.Asn1.Ocsp;
 using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
 using RentalCompany.Application.Payments.Interfaces;
@@ -12,7 +10,6 @@ using RentalCompany.Application.Payments.Models;
 using RentalCompany.Infrastructure.Models;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
 using RentalCompany.Utility;
-using Stripe;
 
 namespace RentalCompany.Application.Services;
 
@@ -141,19 +138,20 @@ public class ShopService : IShopService
     {
         RentHeader rentHeader = _unitOfWork.RentHeader
             .GetFirstOrDefault(u => u.Id == id, includeProperties: "ApplicationUser");
+        var model = new StripeModel
+		{
+			SessionId = rentHeader.SessionId
+		};
 
-        var paymentStatus = _paymentStrategy.GetPaymentStatus(new StripeModel
-        {
-            SessionId = rentHeader.SessionId
-        });
+        var paymentStatus = _paymentStrategy.GetPaymentStatus(model);
 
         if (paymentStatus == "paid")
         {
-            _unitOfWork.RentHeader.UpdatePaymentID(id, rentHeader.SessionId, rentHeader.PaymentIntendId);
+            _unitOfWork.RentHeader.UpdatePaymentID(id, rentHeader.SessionId, _paymentStrategy.GetPaymentIntentId(model));
             _unitOfWork.RentHeader.UpdateStatus(id, Constants.StatusApproved, Constants.PaymentStatusApproved);
         }
 
-        await _emailSender.SendEmailAsync(rentHeader.ApplicationUser.Email, "New Rent - Rental Store", "<p>New Tesla booked!</p>");
+        await _emailSender.SendEmailAsync(rentHeader.ApplicationUser.Email, "New Rent - Mallorca Rent-a-Car ", "<p>New Tesla booked!</p>");
 
         _unitOfWork.Save();
 
@@ -168,7 +166,8 @@ public class ShopService : IShopService
 		var startingDate = DateTime.Now;
         var endingDate = DateTime.Now.AddMonths(Constants.MonthsToCheckInAdvance);
 
-        var rentHeaders = _unitOfWork.RentHeader.GetAll(u => u.PickupRentalStoreId == storeId && u.CarId == carId);
+        var rentHeaders = _unitOfWork.RentHeader.GetAll(u => u.PickupRentalStoreId == storeId && u.CarId == carId 
+            && u.RentStatus != Constants.StatusCancelled && u.RentStatus != Constants.StatusRefunded);
         var carAvailability = _unitOfWork.AvailableCar.GetFirstOrDefault(u => u.RentalStoreId == storeId && u.CarId == carId);
 
         if (rentHeaders != null)

@@ -2,8 +2,10 @@
 using AutoMapper;
 using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
+using RentalCompany.Application.Middleware.CustomExceptions;
+using RentalCompany.Application.Payments.Interfaces;
+using RentalCompany.Application.Payments.Models;
 using RentalCompany.Infrastructure.Models;
-using RentalCompany.Infrastructure.Repositories;
 using RentalCompany.Infrastructure.Repositories.Interfaces;
 using RentalCompany.Utility;
 
@@ -13,11 +15,13 @@ public class OrderService : IOrderService
 {
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly IMapper _mapper;
+	private readonly IPaymentStrategy _paymentStrategy;
 
-	public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
+	public OrderService(IUnitOfWork unitOfWork, IMapper mapper, IPaymentStrategy paymentStrategy)
 	{
 		_unitOfWork = unitOfWork;
 		_mapper = mapper;
+		_paymentStrategy = paymentStrategy;
 	}
 
     public async Task<RentHeaderDto> GetRentHeaderById(int id)
@@ -27,6 +31,30 @@ public class OrderService : IOrderService
 
         return await Task.FromResult(result);
     }
+
+    public Task CancelOrder(int id)
+    {
+        var rentHeader = _unitOfWork.RentHeader.GetFirstOrDefault(u => u.Id == id, tracked: false);
+
+		if (rentHeader == null)
+		{
+			throw new NotFoundException($"Rent Header with ID: {id} was not found in database");
+		}
+
+		if (rentHeader.RentPaymentStatus == Constants.PaymentStatusApproved)
+		{
+			_paymentStrategy.MakeRefund(new StripeModel { PaymentIntent = rentHeader.PaymentIntendId });
+			_unitOfWork.RentHeader.UpdateStatus(rentHeader.Id, Constants.StatusCancelled, Constants.StatusRefunded);
+		}
+		else
+		{
+			_unitOfWork.RentHeader.UpdateStatus(rentHeader.Id, Constants.StatusCancelled, Constants.StatusCancelled);
+		}
+
+		_unitOfWork.Save();
+
+		return Task.CompletedTask;
+	}
 
 	public async Task<IEnumerable<RentHeaderDto>> GetAllOrders(ClaimsPrincipal user, string status)
     {

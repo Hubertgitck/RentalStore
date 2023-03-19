@@ -29,8 +29,8 @@ function loadDataTable(status) {
         },
         "columns": [
             { "data": "id", "width": "5%" },
-            { "data": "applicationUserDto.name", "width": "10%" },
-            { "data": "applicationUserDto.phoneNumber", "width": "5%" },
+            { "data": "applicationUserDto.name", "width": "15%" },
+            { "data": "applicationUserDto.phoneNumber", "width": "10%" },
             { "data": "applicationUserDto.email", "width": "15%" },
             { "data": "rentStatus", "width": "5%" },
             { "data": "carDto.name", "width": "5%" },
@@ -59,7 +59,7 @@ function loadDataTable(status) {
                             Details</a>
                     </div>`
                 },
-                "width": "10%"
+                "width": "15%"
             },
         ]
     });

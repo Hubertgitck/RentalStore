@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RentalCompany.Application.Dto;
 using RentalCompany.Application.Interfaces;
-using RentalCompany.Utility;
 
 namespace RentalCompanyWeb.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Constants.RoleAdmin + "," + Constants.RoleEmployee)]
+[Authorize]
 public class OrderController : Controller
 {
     private readonly IOrderService _orderService;
@@ -26,8 +26,18 @@ public class OrderController : Controller
         return View(await _orderService.GetRentHeaderById(rentHeaderId));
     }
 
-    #region API CALLS
-    [HttpGet]
+	[HttpPost]
+	[ValidateAntiForgeryToken]
+	public async Task<IActionResult> CancelOrder(RentHeaderDto rentHeaderDto)
+	{
+		await _orderService.CancelOrder(rentHeaderDto.Id);
+
+		TempDataHelper.SetSuccess(this, "Order Cancelled Successfully");
+		return RedirectToAction("Details", "Order", new { rentHeaderId = rentHeaderDto.Id });
+	}
+
+	#region API CALLS
+	[HttpGet]
     public async Task<IActionResult> GetAll(string status)
     {
         var result = await _orderService.GetAllOrders(User, status);

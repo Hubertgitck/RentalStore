@@ -22,7 +22,6 @@ public class RentHeaderDto
     public string? PaymentIntendId { get; set; }
 	public DateTime PaymentDate { get; set; }
 
-
 	[Required]
     public DateTime StartDate { get; set; }
     [Required]

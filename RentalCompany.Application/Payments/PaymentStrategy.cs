@@ -24,6 +24,11 @@ public class PaymentStrategy : IPaymentStrategy
     public string GetPaymentStatus<T>(T model) where T : IPaymentModel
     {
         return GetPaymentService(model).GetPaymentStatus(model);
+    }    
+    
+    public string GetPaymentIntentId<T>(T model) where T : IPaymentModel
+    {
+        return GetPaymentService(model).GetPaymentIntentId(model);
     }
 
     private IPaymentService GetPaymentService<T>(T model) where T : IPaymentModel

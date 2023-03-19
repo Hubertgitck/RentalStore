@@ -17,14 +17,18 @@ public abstract class PaymentService<TModel> : IPaymentService
     {
         MakeRefund((TModel)(object)model);
     }
-
-
     public string GetPaymentStatus<T>(T model) where T : IPaymentModel
     {
         return GetPaymentStatus((TModel)(object)model); 
+    }    
+    
+    public string GetPaymentIntentId<T>(T model) where T : IPaymentModel
+    {
+        return GetPaymentIntentId((TModel)(object)model); 
     }
 
     protected abstract string MakePayment(TModel model);
     protected abstract void MakeRefund(TModel model);
     protected abstract string GetPaymentStatus(TModel model);
+    protected abstract string GetPaymentIntentId(TModel model);
 }

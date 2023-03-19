@@ -8,4 +8,5 @@ public interface IOrderService
     Task<IEnumerable<RentHeaderDto>> GetAllOrders(ClaimsPrincipal user, string status);
 	Task<RentHeaderDto> GetRentHeaderById(int id);
 	Task CancelOrder(int id);
+	Task<int> UpdateRentHeader(RentHeaderDto rentHeaderDto);
 }

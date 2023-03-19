@@ -2,4 +2,5 @@
 
 public interface IApplicationUserRepository : IRepository<ApplicationUser>
 {
+
 }

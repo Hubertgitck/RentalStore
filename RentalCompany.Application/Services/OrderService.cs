@@ -56,6 +56,29 @@ public class OrderService : IOrderService
 		return Task.CompletedTask;
 	}
 
+	public Task<int> UpdateRentHeader(RentHeaderDto rentHeaderDto)
+	{
+		var rentHeaderFromDb = _unitOfWork.RentHeader.GetFirstOrDefault(
+			u => u.Id == rentHeaderDto.Id,includeProperties:"ApplicationUser", tracked: false);
+
+		if (rentHeaderFromDb == null)
+		{
+			throw new NotFoundException($"Rent with ID: {rentHeaderDto.Id} was not found in database");
+		}
+
+		rentHeaderFromDb.ApplicationUser.Name = rentHeaderDto.ApplicationUserDto.Name;
+		rentHeaderFromDb.ApplicationUser.PhoneNumber = rentHeaderDto.ApplicationUserDto.PhoneNumber;
+		rentHeaderFromDb.ApplicationUser.StreetAddress = rentHeaderDto.ApplicationUserDto.StreetAddress;
+		rentHeaderFromDb.ApplicationUser.City = rentHeaderDto.ApplicationUserDto.City;
+		rentHeaderFromDb.ApplicationUser.State = rentHeaderDto.ApplicationUserDto.State;
+		rentHeaderFromDb.ApplicationUser.PostalCode = rentHeaderDto.ApplicationUserDto.PostalCode;
+
+		_unitOfWork.RentHeader.Update(rentHeaderFromDb);
+		_unitOfWork.Save();
+
+		return Task.FromResult(rentHeaderFromDb.Id);
+	}
+
 	public async Task<IEnumerable<RentHeaderDto>> GetAllOrders(ClaimsPrincipal user, string status)
     {
         IEnumerable<RentHeader> rentHeadersFromDb;

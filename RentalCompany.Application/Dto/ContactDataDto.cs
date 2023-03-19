@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace RentalCompany.Application.Dto;
-
 public class ContactDataDto
 {
     public int Id { get; set; }

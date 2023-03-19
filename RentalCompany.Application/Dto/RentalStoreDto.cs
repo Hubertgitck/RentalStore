@@ -13,5 +13,4 @@ public class RentalStoreDto
     public ContactDataDto ContactDataDto { get; set; }
     [ValidateNever]
     public ICollection<AvailableCar> AvailableCars { get; set; }
-
 }

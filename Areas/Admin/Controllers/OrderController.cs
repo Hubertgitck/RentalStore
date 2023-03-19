@@ -28,11 +28,20 @@ public class OrderController : Controller
 
 	[HttpPost]
 	[ValidateAntiForgeryToken]
+	public async Task<IActionResult> UpdateOrderDetail(RentHeaderDto rentHeaderDto)
+	{
+		var result = await _orderService.UpdateRentHeader(rentHeaderDto);
+		TempDataHelper.SetSuccess(this, "Rent Details Updated Successfully");
+		return RedirectToAction("Details", "Order", new { rentHeaderId = result });
+	}
+
+	[HttpPost]
+	[ValidateAntiForgeryToken]
 	public async Task<IActionResult> CancelOrder(RentHeaderDto rentHeaderDto)
 	{
 		await _orderService.CancelOrder(rentHeaderDto.Id);
 
-		TempDataHelper.SetSuccess(this, "Order Cancelled Successfully");
+		TempDataHelper.SetSuccess(this, "Rent Cancelled Successfully");
 		return RedirectToAction("Details", "Order", new { rentHeaderId = rentHeaderDto.Id });
 	}
 

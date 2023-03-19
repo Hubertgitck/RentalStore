@@ -16,7 +16,7 @@
 						Details
 					</div>
 					<div class="col-6 my-auto text-end">
-						<a asp-action="Index" class="btn btn-outline-primary form-control w-50 btn-sm">Back to Orders</a>
+						<a asp-action="Index" class="btn btn-info form-control w-50 btn-sm">Back to Orders</a>
 					</div>
 				</div>
 			</div>
@@ -32,91 +32,51 @@
 							<div class="row my-1">
 								<div class="col-3">Name</div>
 								<div class="col-9">
-									@if (User.IsInRole(Constants.RoleAdmin) || User.IsInRole(Constants.RoleEmployee))
-									{
-										<input asp-for="@Model.ApplicationUserDto.Name" type="text" class="form-control" />
-										<span asp-validation-for="@Model.ApplicationUserDto.Name" class="text-danger"></span>
-									}
-									else
-									{
-										<input asp-for="@Model.ApplicationUserDto.Name" readonly type="text" class="form-control" />
-									}
+									<input asp-for="@Model.ApplicationUserDto.Name" type="text" class="form-control" />
+									<span asp-validation-for="@Model.ApplicationUserDto.Name" class="text-danger"></span>
 								</div>
 							</div>
 							<div class="row my-1">
 								<div class="col-3">Phone</div>
 								<div class="col-9">
-									@if (User.IsInRole(Constants.RoleAdmin) || User.IsInRole(Constants.RoleEmployee))
-									{
-										<input asp-for="@Model.ApplicationUserDto.PhoneNumber" type="text" class="form-control" />
-										<span asp-validation-for="@Model.ApplicationUserDto.PhoneNumber" class="text-danger"></span>
-									}
-									else
-									{
-										<input asp-for="@Model.ApplicationUserDto.PhoneNumber" readonly type="text" class="form-control" />
-									}
+									<input asp-for="@Model.ApplicationUserDto.PhoneNumber" type="text" class="form-control" />
+									<span asp-validation-for="@Model.ApplicationUserDto.PhoneNumber" class="text-danger"></span>
 								</div>
 							</div>
 							<div class="row my-1">
 								<div class="col-3">Address</div>
 								<div class="col-9">
-									@if (User.IsInRole(Constants.RoleAdmin) || User.IsInRole(Constants.RoleEmployee))
-									{
-										<input asp-for="@Model.ApplicationUserDto.StreetAddress" type="text" class="form-control" />
-										<span asp-validation-for="@Model.ApplicationUserDto.StreetAddress" class="text-danger"></span>
-									}
-									else
-									{
-										<input asp-for="@Model.ApplicationUserDto.StreetAddress" readonly type="text" class="form-control" />
-									}
+									<input asp-for="@Model.ApplicationUserDto.StreetAddress" type="text" class="form-control" />
+									<span asp-validation-for="@Model.ApplicationUserDto.StreetAddress" class="text-danger"></span>
 								</div>
 							</div>
 							<div class="row my-1">
 								<div class="col-3">City</div>
 								<div class="col-9">
-									@if (User.IsInRole(Constants.RoleAdmin) || User.IsInRole(Constants.RoleEmployee))
-									{
-										<input asp-for="@Model.ApplicationUserDto.City" type="text" class="form-control" />
-										<span asp-validation-for="@Model.ApplicationUserDto.City" class="text-danger"></span>
-									}
-									else
-									{
-										<input asp-for="@Model.ApplicationUserDto.City" readonly type="text" class="form-control" />
-									}
+									<input asp-for="@Model.ApplicationUserDto.City" type="text" class="form-control" />
+									<span asp-validation-for="@Model.ApplicationUserDto.City" class="text-danger"></span>
 								</div>
 							</div>
 							<div class="row my-1">
 								<div class="col-3">State</div>
 								<div class="col-9">
-									@if (User.IsInRole(Constants.RoleAdmin) || User.IsInRole(Constants.RoleEmployee))
-									{
-										<input asp-for="@Model.ApplicationUserDto.State" type="text" class="form-control" />
-										<span asp-validation-for="@Model.ApplicationUserDto.State" class="text-danger"></span>
-									}
-									else
-									{
-										<input asp-for="@Model.ApplicationUserDto.State" readonly type="text" class="form-control" />
-									}
+									<input asp-for="@Model.ApplicationUserDto.State" type="text" class="form-control" />
+									<span asp-validation-for="@Model.ApplicationUserDto.State" class="text-danger"></span>
 								</div>
 							</div>
 							<div class="row my-1">
 								<div class="col-3">Zip Code</div>
 								<div class="col-9">
-									@if (User.IsInRole(Constants.RoleAdmin) || User.IsInRole(Constants.RoleEmployee))
-									{
-										<input asp-for="@Model.ApplicationUserDto.PostalCode" type="text" class="form-control" />
-										<span asp-validation-for="@Model.ApplicationUserDto.PostalCode" class="text-danger"></span>
-									}
-									else
-									{
-										<input asp-for="@Model.ApplicationUserDto.PostalCode" readonly type="text" class="form-control" />
-									}
+									<input asp-for="@Model.ApplicationUserDto.PostalCode" type="text" class="form-control" />
+									<span asp-validation-for="@Model.ApplicationUserDto.PostalCode" class="text-danger"></span>
 								</div>
 							</div>
 							<div class="row my-1">
 								<div class="col-3">Email</div>
 								<div class="col-9">
-									<input asp-for="@Model.ApplicationUserDto.Email" readonly type="text" class="form-control" />
+									<input asp-for="@Model.ApplicationUserDto.Email"  type="text" class="form-control" />
+									<span asp-validation-for="@Model.ApplicationUserDto.Email" class="text-danger"></span>
+
 								</div>
 							</div>
 							@if (User.IsInRole(Constants.RoleAdmin) || User.IsInRole(Constants.RoleEmployee))
@@ -152,8 +112,10 @@
 									<input asp-for="@Model.RentPaymentStatus" type="text" readonly class="form-control" />
 								</div>
 							</div>
-							<input type="submit" asp-action="UpdateOrderDetail" class="btn btn-warning form-control mt-3" value="Update Order Details" />
-
+							@if ((Model.RentStatus != Constants.StatusCancelled) && (Model.RentStatus != Constants.StatusRefunded) 
+							&& (Model.RentPaymentStatus != Constants.PaymentStatusApproved) || User.IsInRole(Constants.RoleAdmin)){
+								<input type="submit" asp-action="UpdateOrderDetail" class="btn btn-warning form-control mt-3" value="Update Order Details" />
+							}
 						</div>
 						<div class="col-12 col-lg-5 offset-lg-1">
 							<h4 class="d-flex justify-content-between align-items-center mb-3">

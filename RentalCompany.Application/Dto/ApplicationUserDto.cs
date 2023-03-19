@@ -13,4 +13,3 @@ public class ApplicationUserDto
     public string? State { get; set; }
     public string? PostalCode { get; set; }
 }
-

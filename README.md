@@ -14,6 +14,8 @@ RentalCompany is a project i made in less than two weeks for a recruitment proce
 
 - Users management is done with ASP Identity with a few tweaks, external login using Facebook
 
+- Email system, after registration, sucesfull payment or password change, customer is getting an e-mail with relevant data
+
 - payment processing using Stripe, if you want to test the payments, please use below data:<br>
 email: test@test.com<br>
 card number:  4242 4242 4242 4242<br>

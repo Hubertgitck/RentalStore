@@ -2,7 +2,7 @@
 
 RentalCompany is a project i made in less then two weeks for a recrutation process. The task was to create web app for a client who owns rental company in Mallorca for renting Tesla cars. Technologies i uesed were .Net, .Net MVC, Entity Framework, Razor Pages, jQuery. Database i used is MS SQL.
 
-<h4>Features implemented are listed below:</h4>
+<h3>Features implemented are listed below:</h3>
 
 - admin control panel that allows processing orders and creating users with either employee or administrator privileges [admin]
 

@@ -101,27 +101,32 @@ public class ShopService : IShopService
 
     public async Task<RentHeaderDto> GetRentHeaderById(int id)
     {
-        var rentHeader = _unitOfWork.RentHeader.GetFirstOrDefault(u => u.Id == id, includeProperties: "Car,PickupRentalStore,ReturnRentalStore,ApplicationUser");
-        var rentHeaderDto = _mapper.Map<RentHeaderDto>(rentHeader);
+        var rentHeaderFromDb = _unitOfWork.RentHeader.GetFirstOrDefault(u => u.Id == id, includeProperties: "Car,PickupRentalStore,ReturnRentalStore,ApplicationUser");
+        var rentHeaderDto = _mapper.Map<RentHeaderDto>(rentHeaderFromDb);
 
         return await Task.FromResult(rentHeaderDto);
     }
 
     public async Task<string> MakePayment(int id, ClaimsPrincipal userClaims)
     {
-        var rentHeader = _unitOfWork.RentHeader.GetFirstOrDefault(u => u.Id == id, includeProperties:"Car");
+        var rentHeaderFromDb = _unitOfWork.RentHeader.GetFirstOrDefault(u => u.Id == id, includeProperties:"Car");
 
         var userId = HelperMethods.GetApplicationUserIdFromClaimsPrincipal(userClaims);
 
-        if (rentHeader != null)
+        if (!IsTotalCostCorrect(rentHeaderFromDb))
+        {
+            return await Task.FromResult("");
+        }
+
+        if (rentHeaderFromDb != null)
         {
             IPaymentModel stripeModel = new StripeModel()
             {
-                RentHeaderId = rentHeader.Id,
-                StartDate = rentHeader.StartDate.ToString("d", CultureInfo.CurrentCulture.DateTimeFormat),
-                EndDate = rentHeader.EndDate.ToString("d", CultureInfo.CurrentCulture.DateTimeFormat),
-                TotalCost = rentHeader.TotalCost,
-                CarName = rentHeader.Car.Name
+                RentHeaderId = rentHeaderFromDb.Id,
+                StartDate = rentHeaderFromDb.StartDate.ToString("d", CultureInfo.CurrentCulture.DateTimeFormat),
+                EndDate = rentHeaderFromDb.EndDate.ToString("d", CultureInfo.CurrentCulture.DateTimeFormat),
+                TotalCost = rentHeaderFromDb.TotalCost,
+                CarName = rentHeaderFromDb.Car.Name
             };
 
             var redirectUrl = _paymentStrategy.MakePayment(stripeModel);
@@ -132,6 +137,16 @@ public class ShopService : IShopService
         {
             return await Task.FromResult("");
         }
+    }
+
+    private bool IsTotalCostCorrect(RentHeader rentHeader)
+    {
+        double totalCost = 0;
+        for(var date = rentHeader.StartDate; date <= rentHeader.EndDate; date.AddDays(1))
+        {
+            totalCost += rentHeader.Car.DayRentalPrice;
+        }
+        return totalCost == rentHeader.TotalCost;
     }
 
     public async Task OrderConfirmation(int id)

@@ -52,7 +52,7 @@ public class ShopController : Controller
 
         if (string.IsNullOrEmpty(result))
         {
-            TempDataHelper.SetError(this, "No rent found for given ID. Please book something first");
+            TempDataHelper.SetError(this, "There was an error with your rent, please try again.");
             return RedirectToAction("Index", "Shop");
         }
         else

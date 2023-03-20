@@ -29,6 +29,7 @@ namespace RentalCompanyWeb.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
+                TempDataHelper.SetSuccess(this, "User logged out sucesfully");
                 return LocalRedirect(returnUrl);
             }
             else

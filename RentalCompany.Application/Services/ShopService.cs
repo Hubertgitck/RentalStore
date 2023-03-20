@@ -142,7 +142,8 @@ public class ShopService : IShopService
     private bool IsTotalCostCorrect(RentHeader rentHeader)
     {
         double totalCost = 0;
-        for(var date = rentHeader.StartDate; date <= rentHeader.EndDate; date.AddDays(1))
+        
+        for(var date = rentHeader.StartDate; date <= rentHeader.EndDate; date = date.AddDays(1))
         {
             totalCost += rentHeader.Car.DayRentalPrice;
         }

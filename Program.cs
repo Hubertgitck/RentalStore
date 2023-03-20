@@ -59,6 +59,12 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 
+builder.Services.AddAuthentication().AddFacebook(options =>
+{
+    options.AppId = builder.Configuration.GetSection("FacebookAuth:AppId").Get<string>();
+    options.AppSecret = builder.Configuration.GetSection("FacebookAuth:AppSecret").Get<string>();
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

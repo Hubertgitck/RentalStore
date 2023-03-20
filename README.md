@@ -20,7 +20,7 @@ card number:  4242 4242 4242 4242<br>
 MM / RR : 12/34 ; CVC: 123<br>
 name: test<br>
 
-<h4>Brief description</h4>
+<h3>Brief description</h3>
 
 User is available to choose from selected store's stock a tesla model which suits the best for his needs. After chosing a car, booking window appears where he is able to chose from available days. Booking is possible for 3 months in advance (easly customizable). Calendar was implemented using jQuery datepicker and custom function for highlighting dates, alerting user if unavailable day was selected etc. Unavailable days are retrieved from database based on selected car and rental store, then they are grayed out. Customer can chose return rental store from all available stores in company. After clicking the "Book" button, the car is reserved and customer can proceed to payment or pay later. Booking data is avaible for updates before payment is done and when order is not in "cancelled" or "refunded" status. If customer changes his mind, he may cancel the order and selected car is released. 
 
